@@ -8,6 +8,17 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Install and check Studio
+        working-directory: web
+        run: |
+          npm ci
+          npm test
+          npm run build
       - name: Run Morph tests
         shell: pwsh
         run: ./tests/Run-Tests.ps1

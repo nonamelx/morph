@@ -10,12 +10,12 @@
 
 - Desktop import payload compatibility: community repositories contain examples, but public OpenAI documentation does not publish a formal schema or version matrix. A community report notes that an unknown `codeThemeId` can disable import; Morph constrains IDs to the upstream collection's reported built-in set. One Windows user reported an accepted import, as described below; acceptance on other builds remains unverified.
 - Fonts: theme payloads can include font fields in observed examples, but actual font availability and rendering depend on the host and app build.
+- CLI `.tmTheme` export: Codex CLI v0.167.2 discovers files in `$CODEX_HOME/themes` (normally `~/.codex/themes`) and offers them in `/theme` under the filename without the extension. On Windows, the original generated example and a revised scoped export were selected in `/theme`, and the CLI saved the selection. Color rendering remains unverified because the test terminal could not display colors. Morph exports global colors and accent rules for a small set of syntax scopes; rendering depends on the file's language and scopes.
 
 ## Planned
 
 - Layout profiles for sidebar placement, panel positions, density, focus mode, and Claude-inspired arrangements. No supported mechanism was established for these controls.
 - Direct install/rollback adapters. Morph currently exports data and does not modify Codex settings.
-- Codex CLI adapter. The CLI's official customization docs describe TextMate `.tmTheme` files under `$CODEX_HOME/themes`; this differs from Desktop theme payloads.
 
 Morph does not patch executables, inject JavaScript/CSS, or edit internal app files.
 

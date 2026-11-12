@@ -9,6 +9,16 @@
 
 Morph is an open-source Codex Desktop theme collection and generator. Theme folders contain readable source definitions, generated previews, and a direct import file. Morph never edits Codex settings or application files.
 
+## Morph Studio: Desktop and CLI
+
+The Studio prototype uses one palette to preview Desktop and CLI, and offers a Desktop import string and an experimental CLI `.tmTheme` download. The previews are illustrative. Desktop's community-derived import format and the CLI's syntax theme format are separate; a shared palette does not guarantee identical appearance. Morph adds a collection, palette editor, previews, and exports; it does not replace Codex's own theme picker.
+
+Run locally with `cd web`, `npm ci`, and `npm run dev`. In Studio, select a theme, edit its colors, switch preview targets, then copy the Desktop import or download the CLI theme. Morph never installs either artifact automatically.
+
+To try the CLI file, place it in `$CODEX_HOME/themes` (normally `~/.codex/themes`, or `%USERPROFILE%\.codex\themes` on Windows when `CODEX_HOME` is unset), start Codex CLI, and choose its filename without `.tmTheme` with `/theme`. [OpenAI's CLI documentation](https://learn.chatgpt.com/docs/cli-customization) describes `.tmTheme` support for syntax highlighting and the picker. Morph exports global colors and accent rules for selected syntax scopes. A generated theme was selected in Codex CLI v0.167.2 on Windows; color rendering remains unverified. Terminal chrome, prompts, and general UI colors may remain controlled by the terminal or Codex.
+
+Desktop import was accepted in one user-reported Windows test; the navigation rail and top bar stayed unchanged, and persistence and other versions remain unverified. Future work includes testing generated CLI files in actual Codex builds and expanding the compatibility matrix. See [compatibility notes](docs/compatibility.md) and [contribution guide](CONTRIBUTING.md).
+
 ## Import a theme
 
 1. Choose a theme in the gallery and open its **Import theme** link. Each link opens that theme’s `import.txt` directly; `schemas/theme.schema.json` is only a source validation schema, not a theme.
