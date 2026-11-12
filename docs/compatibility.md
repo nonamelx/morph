@@ -2,13 +2,13 @@
 
 ## Stable within Morph
 
-- Profile JSON is locally validated by Morph's deliberately constrained v1 rules.
-- Theme export serializes profile appearance data into the community-observed `codex-theme-v1:` share-string shape.
-- Checked-in import artifacts and illustrative SVG previews are reproducibly generated from the profiles.
+- Theme source JSON is validated by Morph's schema, adapted from the upstream theme collection schema.
+- The generator maps theme source fields into the community-derived `codex-theme-v1:` share-string shape.
+- Checked-in `import.txt` artifacts and illustrative SVG previews are reproducibly generated from each source definition.
 
 ## Experimental
 
-- Desktop import payload compatibility: community repositories contain examples, but public OpenAI documentation does not publish a formal schema or version matrix. A community report notes that an unknown `codeThemeId` can disable import; Morph uses a reported built-in ID and keeps acceptance build-dependent.
+- Desktop import payload compatibility: community repositories contain examples, but public OpenAI documentation does not publish a formal schema or version matrix. A community report notes that an unknown `codeThemeId` can disable import; Morph constrains IDs to the upstream collection's reported built-in set, but actual acceptance remains unverified.
 - Fonts: theme payloads can include font fields in observed examples, but actual font availability and rendering depend on the host and app build.
 
 ## Planned
@@ -19,7 +19,7 @@
 
 Morph does not patch executables, inject JavaScript/CSS, or edit internal app files.
 
-The current development machine did not expose a Codex Desktop window, so the `codex-theme-v1:` workflow was not verified against an installed Codex build. Users must confirm that their build shows an Import control and accepts the artifact. The previews are generic visual representations generated from profile colors; they do not depict Codex Desktop.
+The current development machine did not expose a Codex Desktop window, so the `codex-theme-v1:` workflow was not verified against an installed Codex build. Users must confirm that their build shows an Import control and accepts the artifact. The previews are generic visual representations generated from source colors; they do not depict Codex Desktop.
 
 ## Sources (reviewed 2026-11-12)
 
@@ -27,6 +27,7 @@ The current development machine did not expose a Codex Desktop window, so the `c
 - [Codex app appearance settings (OpenAI documentation)](https://learn.chatgpt.com/docs/reference/settings) describes Desktop theme, color, and font controls and theme sharing, but does not specify the observed import string contract.
 - [Codex config basics (OpenAI documentation)](https://learn.chatgpt.com/docs/config-file/config-basic) describes the user-level `config.toml`; Morph does not write it.
 - [Anthropic Codex Theme](https://github.com/miniLV/Anthropic-codex-theme) and [Claude Warm Codex App Theme](https://github.com/YuChenSSR/claude-warm-codex-app-theme) are community research references, not trusted installer instructions. The latter includes sample `codex-theme-v1:` payloads.
+- [Codex Themes](https://github.com/shaw-baobao/codex-themes) provides the adapted source-to-import mapping approach and source-theme definitions; Morph's notices document exact licensing and commit provenance.
 - [Codex issue #14766](https://github.com/openai/codex/issues/14766) reports a macOS importer build that rejected unknown code theme IDs. This is a user report, not a formal compatibility guarantee.
 - [Codex issue #25374](https://github.com/openai/codex/issues/25374) reports a Windows 10 Desktop rendering issue where opaque windows served as a workaround in a specific build context.
 

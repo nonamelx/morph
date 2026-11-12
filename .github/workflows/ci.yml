@@ -13,4 +13,4 @@ jobs:
         run: ./tests/Run-Tests.ps1
       - name: Check generated gallery files
         shell: pwsh
-        run: ./tools/Generate-Previews.ps1 -Check
+        run: ./tools/Build-Themes.ps1 -Check

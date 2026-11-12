@@ -1,0 +1,396 @@
+[
+  {
+    "name": "Absolutely Light",
+    "slug": "absolutely-light",
+    "author": "OpenAI / Codex Themes",
+    "mode": "light",
+    "tags": [
+      "light",
+      "neutral",
+      "default"
+    ],
+    "description": "Absolutely Light adapted for Codex App with warm neutrals and soft contrast.",
+    "preview": "themes/absolutely-light/preview.svg",
+    "import": "themes/absolutely-light/import.txt"
+  },
+  {
+    "name": "Ayu Dark",
+    "slug": "ayu-dark",
+    "author": "teabyii / Codex Themes",
+    "mode": "dark",
+    "tags": [
+      "dark",
+      "warm",
+      "ayu"
+    ],
+    "description": "Ayu Dark adapted for Codex App with warm highlights and soft contrast.",
+    "preview": "themes/ayu-dark/preview.svg",
+    "import": "themes/ayu-dark/import.txt"
+  },
+  {
+    "name": "Ayu Light",
+    "slug": "ayu-light",
+    "author": "teabyii / Codex Themes",
+    "mode": "light",
+    "tags": [
+      "light",
+      "warm",
+      "ayu"
+    ],
+    "description": "Ayu Light adapted for Codex App with warm orange highlights and clean contrast.",
+    "preview": "themes/ayu-light/preview.svg",
+    "import": "themes/ayu-light/import.txt"
+  },
+  {
+    "name": "Catppuccin Latte",
+    "slug": "catppuccin-latte",
+    "author": "Catppuccin / Codex Themes",
+    "mode": "light",
+    "tags": [
+      "light",
+      "pastel",
+      "latte"
+    ],
+    "description": "Catppuccin Latte adapted for Codex App with soft pastel accents and low glare.",
+    "preview": "themes/catppuccin-latte/preview.svg",
+    "import": "themes/catppuccin-latte/import.txt"
+  },
+  {
+    "name": "Catppuccin Mocha",
+    "slug": "catppuccin-mocha",
+    "author": "Catppuccin / Codex Themes",
+    "mode": "dark",
+    "tags": [
+      "dark",
+      "pastel",
+      "mocha"
+    ],
+    "description": "Catppuccin Mocha adapted for Codex App with pastel accents and soft contrast.",
+    "preview": "themes/catppuccin-mocha/preview.svg",
+    "import": "themes/catppuccin-mocha/import.txt"
+  },
+  {
+    "name": "Claude Warm",
+    "slug": "claude-warm",
+    "author": "Morph (independent adaptation)",
+    "mode": "dark",
+    "tags": [
+      "dark",
+      "warm",
+      "terracotta",
+      "morph"
+    ],
+    "description": "Warm charcoal, soft cream text, muted terracotta accent.",
+    "preview": "themes/claude-warm/preview.svg",
+    "import": "themes/claude-warm/import.txt"
+  },
+  {
+    "name": "Codex Dark",
+    "slug": "codex-dark",
+    "author": "OpenAI / Codex Themes",
+    "mode": "dark",
+    "tags": [
+      "dark",
+      "default",
+      "codex"
+    ],
+    "description": "Codex Dark adapted from the built-in Codex look with a bright blue accent.",
+    "preview": "themes/codex-dark/preview.svg",
+    "import": "themes/codex-dark/import.txt"
+  },
+  {
+    "name": "Dracula",
+    "slug": "dracula",
+    "author": "Dracula Theme / Codex Themes",
+    "mode": "dark",
+    "tags": [
+      "dark",
+      "purple",
+      "neon"
+    ],
+    "description": "Dracula adapted for Codex App with vivid purple accents and high contrast.",
+    "preview": "themes/dracula/preview.svg",
+    "import": "themes/dracula/import.txt"
+  },
+  {
+    "name": "Everforest Dark",
+    "slug": "everforest-dark",
+    "author": "sainnhe / Codex Themes",
+    "mode": "dark",
+    "tags": [
+      "dark",
+      "forest",
+      "muted"
+    ],
+    "description": "Everforest Dark adapted for Codex App with natural greens and low eye strain.",
+    "preview": "themes/everforest-dark/preview.svg",
+    "import": "themes/everforest-dark/import.txt"
+  },
+  {
+    "name": "Everforest Light",
+    "slug": "everforest-light",
+    "author": "sainnhe / Codex Themes",
+    "mode": "light",
+    "tags": [
+      "light",
+      "forest",
+      "muted"
+    ],
+    "description": "Everforest Light adapted for Codex App with muted greens and warm paper tones.",
+    "preview": "themes/everforest-light/preview.svg",
+    "import": "themes/everforest-light/import.txt"
+  },
+  {
+    "name": "GitHub Dark",
+    "slug": "github-dark",
+    "author": "GitHub / Codex Themes",
+    "mode": "dark",
+    "tags": [
+      "dark",
+      "github",
+      "clean"
+    ],
+    "description": "GitHub Dark adapted for Codex App with a clean blue accent and neutral surfaces.",
+    "preview": "themes/github-dark/preview.svg",
+    "import": "themes/github-dark/import.txt"
+  },
+  {
+    "name": "GitHub Light",
+    "slug": "github-light",
+    "author": "GitHub / Codex Themes",
+    "mode": "light",
+    "tags": [
+      "light",
+      "clean",
+      "github"
+    ],
+    "description": "GitHub Light adapted for Codex App with a clean neutral palette.",
+    "preview": "themes/github-light/preview.svg",
+    "import": "themes/github-light/import.txt"
+  },
+  {
+    "name": "Gruvbox Dark",
+    "slug": "gruvbox-dark",
+    "author": "morhetz / Codex Themes",
+    "mode": "dark",
+    "tags": [
+      "dark",
+      "warm",
+      "retro"
+    ],
+    "description": "Gruvbox Dark adapted for Codex App with warm contrast and earthy tones.",
+    "preview": "themes/gruvbox-dark/preview.svg",
+    "import": "themes/gruvbox-dark/import.txt"
+  },
+  {
+    "name": "Gruvbox Light",
+    "slug": "gruvbox-light",
+    "author": "morhetz / Codex Themes",
+    "mode": "light",
+    "tags": [
+      "light",
+      "warm",
+      "retro"
+    ],
+    "description": "Gruvbox Light adapted for Codex App with warm paper tones and strong contrast.",
+    "preview": "themes/gruvbox-light/preview.svg",
+    "import": "themes/gruvbox-light/import.txt"
+  },
+  {
+    "name": "Material Lighter",
+    "slug": "material-lighter",
+    "author": "material-theme / Codex Themes",
+    "mode": "light",
+    "tags": [
+      "light",
+      "material",
+      "clean"
+    ],
+    "description": "Material Lighter adapted for Codex App with crisp surfaces and vivid purple accents.",
+    "preview": "themes/material-lighter/preview.svg",
+    "import": "themes/material-lighter/import.txt"
+  },
+  {
+    "name": "Material Ocean",
+    "slug": "material-ocean",
+    "author": "material-theme / Codex Themes",
+    "mode": "dark",
+    "tags": [
+      "dark",
+      "material",
+      "ocean"
+    ],
+    "description": "Material Ocean adapted for Codex App with cool blues and vibrant syntax accents.",
+    "preview": "themes/material-ocean/preview.svg",
+    "import": "themes/material-ocean/import.txt"
+  },
+  {
+    "name": "Monokai",
+    "slug": "monokai",
+    "author": "Wimer Hazenberg / Codex Themes",
+    "mode": "dark",
+    "tags": [
+      "dark",
+      "classic",
+      "monokai"
+    ],
+    "description": "Monokai adapted for Codex App with bold contrast and saturated highlights.",
+    "preview": "themes/monokai/preview.svg",
+    "import": "themes/monokai/import.txt"
+  },
+  {
+    "name": "Night Owl",
+    "slug": "night-owl",
+    "author": "Sarah Drasner / Codex Themes",
+    "mode": "dark",
+    "tags": [
+      "dark",
+      "owl",
+      "blue"
+    ],
+    "description": "Night Owl adapted for Codex App with deep navy surfaces and luminous highlights.",
+    "preview": "themes/night-owl/preview.svg",
+    "import": "themes/night-owl/import.txt"
+  },
+  {
+    "name": "Nord",
+    "slug": "nord",
+    "author": "arcticicestudio / Codex Themes",
+    "mode": "dark",
+    "tags": [
+      "dark",
+      "arctic",
+      "calm"
+    ],
+    "description": "Nord adapted for Codex App with cool blue accents and balanced contrast.",
+    "preview": "themes/nord/preview.svg",
+    "import": "themes/nord/import.txt"
+  },
+  {
+    "name": "One Dark",
+    "slug": "one-dark",
+    "author": "Atom / Codex Themes",
+    "mode": "dark",
+    "tags": [
+      "dark",
+      "modern",
+      "balanced"
+    ],
+    "description": "One Dark adapted for Codex App with the classic Atom-style palette.",
+    "preview": "themes/one-dark/preview.svg",
+    "import": "themes/one-dark/import.txt"
+  },
+  {
+    "name": "Poimandres",
+    "slug": "poimandres",
+    "author": "poimandres / Codex Themes",
+    "mode": "dark",
+    "tags": [
+      "dark",
+      "poimandres",
+      "soft"
+    ],
+    "description": "Poimandres adapted for Codex App with airy highlights and low-glare surfaces.",
+    "preview": "themes/poimandres/preview.svg",
+    "import": "themes/poimandres/import.txt"
+  },
+  {
+    "name": "Rosé Pine",
+    "slug": "rose-pine",
+    "author": "rose-pine / Codex Themes",
+    "mode": "dark",
+    "tags": [
+      "dark",
+      "rose-pine",
+      "soft"
+    ],
+    "description": "Rosé Pine adapted for Codex App with soft mauves and subdued contrast.",
+    "preview": "themes/rose-pine/preview.svg",
+    "import": "themes/rose-pine/import.txt"
+  },
+  {
+    "name": "Rosé Pine Dawn",
+    "slug": "rose-pine-dawn",
+    "author": "rose-pine / Codex Themes",
+    "mode": "light",
+    "tags": [
+      "light",
+      "rose-pine",
+      "soft"
+    ],
+    "description": "Rosé Pine Dawn adapted for Codex App with warm cream surfaces and muted mauves.",
+    "preview": "themes/rose-pine-dawn/preview.svg",
+    "import": "themes/rose-pine-dawn/import.txt"
+  },
+  {
+    "name": "Solarized Dark",
+    "slug": "solarized-dark",
+    "author": "Ethan Schoonover / Codex Themes",
+    "mode": "dark",
+    "tags": [
+      "dark",
+      "classic",
+      "solarized"
+    ],
+    "description": "Solarized Dark adapted for Codex App with balanced blue accents and restrained contrast.",
+    "preview": "themes/solarized-dark/preview.svg",
+    "import": "themes/solarized-dark/import.txt"
+  },
+  {
+    "name": "Solarized Light",
+    "slug": "solarized-light",
+    "author": "Ethan Schoonover / Codex Themes",
+    "mode": "light",
+    "tags": [
+      "light",
+      "classic",
+      "muted"
+    ],
+    "description": "Solarized Light adapted for Codex App with warm neutrals and restrained contrast.",
+    "preview": "themes/solarized-light/preview.svg",
+    "import": "themes/solarized-light/import.txt"
+  },
+  {
+    "name": "Tokyo Day",
+    "slug": "tokyo-day",
+    "author": "enkia / Codex Themes",
+    "mode": "light",
+    "tags": [
+      "light",
+      "blue",
+      "popular"
+    ],
+    "description": "Tokyo Day adapted for Codex App with cool blues and a soft cloudy background.",
+    "preview": "themes/tokyo-day/preview.svg",
+    "import": "themes/tokyo-day/import.txt"
+  },
+  {
+    "name": "Tokyo Night",
+    "slug": "tokyo-night",
+    "author": "enkia / Codex Themes",
+    "mode": "dark",
+    "tags": [
+      "dark",
+      "blue",
+      "popular"
+    ],
+    "description": "Tokyo Night adapted for Codex App with a soft blue accent.",
+    "preview": "themes/tokyo-night/preview.svg",
+    "import": "themes/tokyo-night/import.txt"
+  },
+  {
+    "name": "VOID / 無名",
+    "slug": "void",
+    "author": "Morph (original)",
+    "mode": "dark",
+    "tags": [
+      "dark",
+      "graphite",
+      "red",
+      "morph"
+    ],
+    "description": "Near-black graphite with restrained red accents.",
+    "preview": "themes/void/preview.svg",
+    "import": "themes/void/import.txt"
+  }
+]

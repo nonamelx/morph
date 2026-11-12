@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560" role="img" aria-labelledby="title desc">
+  <title id="title">Everforest Dark theme preview</title>
+  <desc id="desc">Illustrative preview generated from this theme's source colors. Not a Codex screenshot. Everforest Dark adapted for Codex App with natural greens and low eye strain.</desc>
+  <rect width="960" height="560" rx="24" fill="#2b3339"/>
+  <rect x="22" y="22" width="916" height="516" rx="20" fill="#374145" stroke="#d3c6aa" stroke-opacity=".12"/>
+  <rect x="22" y="22" width="916" height="68" rx="20" fill="#d3c6aa" opacity=".06"/>
+  <circle cx="55" cy="56" r="8" fill="#a7c080"/>
+  <circle cx="82" cy="56" r="8" fill="#d3c6aa" opacity=".25"/>
+  <circle cx="109" cy="56" r="8" fill="#d3c6aa" opacity=".14"/>
+  <text x="145" y="63" font-family="Segoe UI, sans-serif" font-size="18" fill="#d3c6aa">MORPH / DARK</text>
+  <rect x="50" y="118" width="235" height="380" rx="14" fill="#2b3339" opacity=".62"/>
+  <rect x="72" y="145" width="145" height="10" rx="5" fill="#a7c080"/>
+  <rect x="72" y="184" width="174" height="10" rx="5" fill="#d3c6aa" opacity=".38"/>
+  <rect x="72" y="218" width="140" height="10" rx="5" fill="#d3c6aa" opacity=".25"/>
+  <rect x="72" y="252" width="160" height="10" rx="5" fill="#d3c6aa" opacity=".25"/>
+  <text x="326" y="160" font-family="Segoe UI, sans-serif" font-size="34" font-weight="600" fill="#d3c6aa">Everforest Dark</text>
+  <text x="326" y="197" font-family="Segoe UI, sans-serif" font-size="16" fill="#d3c6aa" opacity=".72">Everforest Dark adapted for Codex App with natural greens and low eye strain.</text>
+  <text x="326" y="228" font-family="Segoe UI, sans-serif" font-size="14" fill="#d3c6aa" opacity=".62">dark · forest · muted</text>
+  <rect x="326" y="258" width="556" height="168" rx="16" fill="#2b3339" stroke="#d3c6aa" stroke-opacity=".14"/>
+  <text x="352" y="298" font-family="Segoe UI, sans-serif" font-size="16" fill="#d3c6aa" opacity=".75">A calm workspace for your next idea.</text>
+  <rect x="352" y="326" width="154" height="42" rx="10" fill="#a7c080"/>
+  <text x="374" y="353" font-family="Segoe UI, sans-serif" font-size="15" font-weight="600" fill="#2b3339">Continue</text>
+  <rect x="522" y="326" width="172" height="42" rx="10" fill="none" stroke="#d3c6aa" stroke-opacity=".34"/>
+  <text x="544" y="353" font-family="Segoe UI, sans-serif" font-size="15" fill="#d3c6aa">Secondary action</text>
+  <text x="352" y="399" font-family="Consolas, monospace" font-size="14" fill="#d3c6aa" opacity=".72">everforest · contrast 44</text>
+  <text x="326" y="470" font-family="Segoe UI, sans-serif" font-size="13" fill="#d3c6aa" opacity=".7">Illustrative preview — not a Codex screenshot</text>
+</svg>
