@@ -6,22 +6,19 @@ New-Item -ItemType Directory -Path $tmp | Out-Null
 try {
     $profiles = & $cli check
     if ($LASTEXITCODE -gt 0) { throw 'Profile check failed.' }
+    if (-not (($profiles -join "`n") -match 'compatibility: unknown')) { throw 'Compatibility status was not reported.' }
     $items = @(& $cli list)
     if ($items.Count -ne 2) { throw "Expected 2 themes, got $($items.Count)." }
     $export = (& $cli export claude-warm | Out-String).Trim()
     if (-not $export.StartsWith('codex-theme-v1:')) { throw 'Export prefix missing.' }
-    $bad = Join-Path (Join-Path $root 'themes') 'test-invalid.json'
+    $bad = Join-Path $tmp 'test-invalid.json'
     $originalProfile = Get-Content -LiteralPath (Join-Path $root 'themes/void.json') -Raw
-    try {
-        $invalidProfile = $originalProfile | ConvertFrom-Json -AsHashtable
-        $invalidProfile.payload.theme.unknownKey = 'should fail'
-        $invalidProfile | ConvertTo-Json -Depth 20 | Set-Content -LiteralPath $bad
-        $failed = $false
-        try { & $cli check | Out-Null } catch { $failed = $true }
-        if (-not $failed) { throw 'Unknown profile key unexpectedly passed validation.' }
-    } finally {
-        Remove-Item -LiteralPath $bad -Force -ErrorAction SilentlyContinue
-    }
+    $invalidProfile = $originalProfile | ConvertFrom-Json -AsHashtable
+    $invalidProfile.id = 'test-invalid'
+    $invalidProfile.payload.theme.unknownKey = 'should fail'
+    $invalidProfile | ConvertTo-Json -Depth 20 | Set-Content -LiteralPath $bad
+    $schema = Get-Content -LiteralPath (Join-Path $root 'themes/profile.schema.json') -Raw
+    if (Test-Json -Json (Get-Content -LiteralPath $bad -Raw) -Schema $schema) { throw 'Unknown profile key unexpectedly passed schema validation.' }
     $failed = $false
     try { & $cli export bogus | Out-Null } catch { $failed = $true }
     if (-not $failed) { throw 'Unknown theme unexpectedly succeeded.' }

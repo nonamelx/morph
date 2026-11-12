@@ -17,7 +17,9 @@ function Read-Profile([string]$Id) {
     if ($Id -notmatch '^[a-z0-9]+(?:-[a-z0-9]+)*$') { throw "Invalid theme identifier: $Id" }
     $file = Join-Path $script:ThemesDir "$Id.json"
     if (-not (Test-Path -LiteralPath $file -PathType Leaf)) { throw "Unknown theme '$Id'. Run: .\scripts\Morph.ps1 list" }
-    $p = Get-Content -LiteralPath $file -Raw | ConvertFrom-Json -AsHashtable
+    $rawProfile = Get-Content -LiteralPath $file -Raw
+    if (-not (Test-Json -Json $rawProfile -SchemaFile $script:SchemaPath)) { throw "Profile failed Morph v1 JSON schema validation: $file" }
+    $p = $rawProfile | ConvertFrom-Json -AsHashtable
     if ($p.id -cne $Id) { throw "Profile id does not match filename: $file" }
     $allowedProfile = @('id','name','description','payload')
     $allowedPayload = @('codeThemeId','theme','variant')
@@ -46,7 +48,7 @@ Export writes a native theme share string. Import it through Codex Desktop Setti
 '@ }
     'list' { foreach ($f in Get-ThemeFiles) { $p = Read-Profile $f.BaseName; [pscustomobject]@{ Id=$p.id; Name=$p.name; Variant=$p.payload.variant } } }
     'show' { if (-not $Theme) { throw 'Specify a theme id.' }; Read-Profile $Theme | ConvertTo-Json -Depth 20 }
-    'check' { foreach ($f in Get-ThemeFiles) { $null = Read-Profile $f.BaseName }; "Validated $(@(Get-ThemeFiles).Count) profiles against Morph v1 constraints." }
+    'check' { foreach ($f in Get-ThemeFiles) { $null = Read-Profile $f.BaseName }; "Validated $(@(Get-ThemeFiles).Count) profiles against Morph v1 constraints."; 'Codex Desktop compatibility: unknown. Check whether Settings > Appearance visibly offers theme import; no build matrix is verified.' }
     'export' {
         if (-not $Theme) { throw 'Specify a theme id.' }
         $p = Read-Profile $Theme
