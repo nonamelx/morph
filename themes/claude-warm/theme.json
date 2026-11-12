@@ -1,0 +1,32 @@
+{
+  "name": "Claude Warm",
+  "slug": "claude-warm",
+  "author": "Morph (independent adaptation)",
+  "type": "app",
+  "mode": "dark",
+  "tags": [
+    "dark",
+    "warm",
+    "terracotta",
+    "morph"
+  ],
+  "description": "Warm charcoal, soft cream text, muted terracotta accent.",
+  "codeThemeId": "codex",
+  "theme": {
+    "accent": "#c57b60",
+    "background": "#302d2b",
+    "foreground": "#f4eee5",
+    "surface": "#302d2b",
+    "contrast": 60,
+    "opaqueWindows": true,
+    "semanticColors": {
+      "diffAdded": "#81b88b",
+      "diffRemoved": "#d68272",
+      "skill": "#c57b60"
+    },
+    "fonts": {
+      "ui": "system-ui, sans-serif",
+      "code": "ui-monospace, monospace"
+    }
+  }
+}

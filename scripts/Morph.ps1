@@ -1,7 +1,7 @@
 #Requires -Version 7.4
 [CmdletBinding(SupportsShouldProcess = $true)]
 param(
-    [Parameter(Position = 0)][ValidateSet('list','show','check','export','backup','restore','diagnostics','help')][string]$Command = 'help',
+    [Parameter(Position = 0)][ValidateSet('list','show','check','export','backup','restore','diagnostics','help','preview')][string]$Command = 'help',
     [Parameter(Position = 1)][string]$Theme,
     [string]$Path,
     [string]$BackupPath
@@ -11,48 +11,65 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $script:Root = Split-Path -Parent $PSScriptRoot
 $script:ThemesDir = Join-Path $script:Root 'themes'
-$script:SchemaPath = Join-Path $script:ThemesDir 'profile.schema.json'
+$script:SchemaPath = Join-Path $script:Root 'schemas/theme.schema.json'
 
 function Read-Profile([string]$Id) {
     if ($Id -notmatch '^[a-z0-9]+(?:-[a-z0-9]+)*$') { throw "Invalid theme identifier: $Id" }
-    $file = Join-Path $script:ThemesDir "$Id.json"
+    $file = Join-Path (Join-Path $script:ThemesDir $Id) 'theme.json'
     if (-not (Test-Path -LiteralPath $file -PathType Leaf)) { throw "Unknown theme '$Id'. Run: .\scripts\Morph.ps1 list" }
     $rawProfile = Get-Content -LiteralPath $file -Raw
-    if (-not (Test-Json -Json $rawProfile -SchemaFile $script:SchemaPath)) { throw "Profile failed Morph v1 JSON schema validation: $file" }
+    if (-not (Test-Json -Json $rawProfile -SchemaFile $script:SchemaPath)) { throw "Theme source failed JSON schema validation: $file" }
     $p = $rawProfile | ConvertFrom-Json -AsHashtable
-    if ($p.id -cne $Id) { throw "Profile id does not match filename: $file" }
-    $allowedProfile = @('id','name','description','payload')
-    $allowedPayload = @('codeThemeId','theme','variant')
-    $allowedTheme = @('accent','contrast','fonts','ink','opaqueWindows','semanticColors','surface')
-    $allowedSemantic = @('diffAdded','diffRemoved','skill')
-    if (@($p.Keys | Where-Object { $_ -cnotin $allowedProfile }).Count -or @($allowedProfile | Where-Object { $_ -cnotin $p.Keys }).Count) { throw 'Profile keys do not match Morph v1 schema.' }
-    if (@($p.payload.Keys | Where-Object { $_ -cnotin $allowedPayload }).Count -or @($allowedPayload | Where-Object { $_ -cnotin $p.payload.Keys }).Count) { throw 'Payload keys do not match Morph v1 schema.' }
-    if (@($p.payload.theme.Keys | Where-Object { $_ -cnotin $allowedTheme }).Count -or @($allowedTheme | Where-Object { $_ -cnotin $p.payload.theme.Keys }).Count) { throw 'Theme keys do not match Morph v1 schema.' }
-    if (@($p.payload.theme.semanticColors.Keys | Where-Object { $_ -cnotin $allowedSemantic }).Count -or @($allowedSemantic | Where-Object { $_ -cnotin $p.payload.theme.semanticColors.Keys }).Count) { throw 'Semantic color keys do not match Morph v1 schema.' }
-    if ($p.payload.codeThemeId -cnotin @('one','one-dark','nord','dracula','catppuccin','gruvbox','solarized','github-light','tokyo-night','matrix')) { throw 'Unsupported built-in codeThemeId.' }
-    if ($p.payload.variant -cnotin @('dark','light')) { throw 'Unsupported variant.' }
-    foreach ($color in @($p.payload.theme.accent,$p.payload.theme.ink,$p.payload.theme.surface,$p.payload.theme.semanticColors.diffAdded,$p.payload.theme.semanticColors.diffRemoved,$p.payload.theme.semanticColors.skill)) {
-        if ($color -cnotmatch '^#[0-9A-Fa-f]{6}$') { throw "Invalid color: $color" }
-    }
-    if ($p.payload.theme.contrast -isnot [ValueType] -or $p.payload.theme.contrast -lt 0 -or $p.payload.theme.contrast -gt 100) { throw 'Contrast must be a number from 0 to 100.' }
+    if ($p.slug -cne $Id) { throw "Theme slug does not match folder name: $file" }
     return $p
 }
 
-function Get-ThemeFiles { Get-ChildItem -LiteralPath $script:ThemesDir -Filter '*.json' -File | Where-Object Name -ne 'profile.schema.json' }
+function Get-ThemeFiles { Get-ChildItem -LiteralPath $script:ThemesDir -Directory | Where-Object { Test-Path -LiteralPath (Join-Path $_.FullName 'theme.json') } | Sort-Object Name }
+
+function Get-Artifact([string]$Id) {
+    $p = Read-Profile $Id
+    $source = $p.theme
+    $semantic = $source['semanticColors']
+    if (-not $semantic) {
+        if ($p.mode -eq 'dark') { $added='#4ade80'; $removed='#f87171' } else { $added='#16a34a'; $removed='#dc2626' }
+        $semantic = [ordered]@{ diffAdded=$added; diffRemoved=$removed; skill=$source.accent }
+    }
+    $canonical = [ordered]@{
+        codeThemeId = $p.codeThemeId
+        theme = [ordered]@{
+            accent = $source.accent
+            contrast = $source.contrast
+            fonts = [ordered]@{ code = $source.fonts.code; ui = $source.fonts.ui }
+            ink = $source.foreground
+            opaqueWindows = if ($null -ne $source['opaqueWindows']) { $source['opaqueWindows'] } else { $false }
+            semanticColors = [ordered]@{}
+            surface = if ($source['surface']) { $source['surface'] } else { $source.background }
+        }
+        variant = $p.mode
+    }
+    foreach ($key in @($semantic.Keys | Sort-Object)) { $canonical.theme.semanticColors[$key] = $semantic[$key] }
+    'codex-theme-v1:' + ($canonical | ConvertTo-Json -Depth 20 -Compress)
+}
 
 switch ($Command) {
     'help' { @'
 Morph — Shape your Codex.
-Commands: list | show <id> | check | export <id> [-Path file] | backup -Path <source> [-BackupPath <destination>] | restore -Path <backup> -BackupPath <destination> | diagnostics
-Export writes a native theme share string. Import it through Codex Desktop Settings > Appearance.
+Commands: help | list | show <id> | preview <id> | check | export <id> [-Path file] | backup -Path <source> [-BackupPath <destination>] | restore -Path <backup> -BackupPath <destination> | diagnostics
+Export writes an observed theme share string. Import remains build dependent and unverified; use Codex Desktop Settings > Appearance only if Import is visible.
 '@ }
-    'list' { foreach ($f in Get-ThemeFiles) { $p = Read-Profile $f.BaseName; [pscustomobject]@{ Id=$p.id; Name=$p.name; Variant=$p.payload.variant } } }
+    'list' { foreach ($f in Get-ThemeFiles) { $p = Read-Profile $f.Name; [pscustomobject]@{ Id=$p.slug; Name=$p.name; Variant=$p.mode; Author=$p.author } } }
     'show' { if (-not $Theme) { throw 'Specify a theme id.' }; Read-Profile $Theme | ConvertTo-Json -Depth 20 }
-    'check' { foreach ($f in Get-ThemeFiles) { $null = Read-Profile $f.BaseName }; "Validated $(@(Get-ThemeFiles).Count) profiles against Morph v1 constraints."; 'Codex Desktop compatibility: unknown. Check whether Settings > Appearance visibly offers theme import; no build matrix is verified.' }
+    'preview' {
+        if (-not $Theme) { throw 'Specify a theme id.' }
+        $null = Read-Profile $Theme
+        $svg = Join-Path (Join-Path $script:ThemesDir $Theme) 'preview.svg'
+        if (-not (Test-Path -LiteralPath $svg -PathType Leaf)) { throw "Preview not found for '$Theme'. Run tools/Build-Themes.ps1." }
+        Get-Content -LiteralPath $svg -Raw
+    }
+    'check' { foreach ($f in Get-ThemeFiles) { $null = Read-Profile $f.Name }; "Validated $(@(Get-ThemeFiles).Count) theme sources against the Morph theme schema."; 'Codex Desktop compatibility: unknown. Check whether Settings > Appearance visibly offers theme import; no build matrix is verified.' }
     'export' {
         if (-not $Theme) { throw 'Specify a theme id.' }
-        $p = Read-Profile $Theme
-        $serialized = 'codex-theme-v1:' + ($p.payload | ConvertTo-Json -Depth 20 -Compress)
+        $serialized = Get-Artifact $Theme
         if ($Path) {
             $target = [IO.Path]::GetFullPath($Path)
             if (Test-Path -LiteralPath $target) { throw "Refusing to overwrite existing path: $target" }

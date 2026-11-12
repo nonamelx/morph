@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560" role="img" aria-labelledby="title desc">
+  <title id="title">Tokyo Night theme preview</title>
+  <desc id="desc">Illustrative preview generated from this theme's source colors. Not a Codex screenshot. Tokyo Night adapted for Codex App with a soft blue accent.</desc>
+  <rect width="960" height="560" rx="24" fill="#1a1b26"/>
+  <rect x="22" y="22" width="916" height="516" rx="20" fill="#24283b" stroke="#c0caf5" stroke-opacity=".12"/>
+  <rect x="22" y="22" width="916" height="68" rx="20" fill="#c0caf5" opacity=".06"/>
+  <circle cx="55" cy="56" r="8" fill="#7aa2f7"/>
+  <circle cx="82" cy="56" r="8" fill="#c0caf5" opacity=".25"/>
+  <circle cx="109" cy="56" r="8" fill="#c0caf5" opacity=".14"/>
+  <text x="145" y="63" font-family="Segoe UI, sans-serif" font-size="18" fill="#c0caf5">MORPH / DARK</text>
+  <rect x="50" y="118" width="235" height="380" rx="14" fill="#1a1b26" opacity=".62"/>
+  <rect x="72" y="145" width="145" height="10" rx="5" fill="#7aa2f7"/>
+  <rect x="72" y="184" width="174" height="10" rx="5" fill="#c0caf5" opacity=".38"/>
+  <rect x="72" y="218" width="140" height="10" rx="5" fill="#c0caf5" opacity=".25"/>
+  <rect x="72" y="252" width="160" height="10" rx="5" fill="#c0caf5" opacity=".25"/>
+  <text x="326" y="160" font-family="Segoe UI, sans-serif" font-size="34" font-weight="600" fill="#c0caf5">Tokyo Night</text>
+  <text x="326" y="197" font-family="Segoe UI, sans-serif" font-size="16" fill="#c0caf5" opacity=".72">Tokyo Night adapted for Codex App with a soft blue accent.</text>
+  <text x="326" y="228" font-family="Segoe UI, sans-serif" font-size="14" fill="#c0caf5" opacity=".62">dark · blue · popular</text>
+  <rect x="326" y="258" width="556" height="168" rx="16" fill="#1a1b26" stroke="#c0caf5" stroke-opacity=".14"/>
+  <text x="352" y="298" font-family="Segoe UI, sans-serif" font-size="16" fill="#c0caf5" opacity=".75">A calm workspace for your next idea.</text>
+  <rect x="352" y="326" width="154" height="42" rx="10" fill="#7aa2f7"/>
+  <text x="374" y="353" font-family="Segoe UI, sans-serif" font-size="15" font-weight="600" fill="#1a1b26">Continue</text>
+  <rect x="522" y="326" width="172" height="42" rx="10" fill="none" stroke="#c0caf5" stroke-opacity=".34"/>
+  <text x="544" y="353" font-family="Segoe UI, sans-serif" font-size="15" fill="#c0caf5">Secondary action</text>
+  <text x="352" y="399" font-family="Consolas, monospace" font-size="14" fill="#c0caf5" opacity=".72">tokyo-night · contrast 52</text>
+  <text x="326" y="470" font-family="Segoe UI, sans-serif" font-size="13" fill="#c0caf5" opacity=".7">Illustrative preview — not a Codex screenshot</text>
+</svg>

@@ -1,0 +1,32 @@
+{
+  "name": "VOID / 無名",
+  "slug": "void",
+  "author": "Morph (original)",
+  "type": "app",
+  "mode": "dark",
+  "tags": [
+    "dark",
+    "graphite",
+    "red",
+    "morph"
+  ],
+  "description": "Near-black graphite with restrained red accents.",
+  "codeThemeId": "codex",
+  "theme": {
+    "accent": "#bb6a6a",
+    "background": "#181819",
+    "foreground": "#e2dddd",
+    "surface": "#181819",
+    "contrast": 60,
+    "opaqueWindows": true,
+    "semanticColors": {
+      "diffAdded": "#80ad88",
+      "diffRemoved": "#d17b79",
+      "skill": "#bb6a6a"
+    },
+    "fonts": {
+      "ui": "system-ui, sans-serif",
+      "code": "ui-monospace, monospace"
+    }
+  }
+}

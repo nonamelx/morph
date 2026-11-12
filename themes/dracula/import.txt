@@ -1,0 +1,1 @@
+codex-theme-v1:{"codeThemeId":"dracula","theme":{"accent":"#bd93f9","contrast":55,"fonts":{"code":"SF Mono","ui":"SF Pro Text"},"ink":"#f8f8f2","opaqueWindows":false,"semanticColors":{"diffAdded":"#50fa7b","diffRemoved":"#ff5555","skill":"#bd93f9"},"surface":"#44475a"},"variant":"dark"}

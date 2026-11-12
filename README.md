@@ -1,86 +1,96 @@
-# Morph
+<div align="center">
 
-**Shape your Codex.**
+# MORPH
+### Shape your Codex.
 
-Morph is a small, open-source toolkit for creating and sharing appearance profiles for Codex Desktop. It packages themes as plain JSON and exports the native-looking share string for the app's visible import control. Morph does not modify Codex files, patch application bundles, inject code, or run in the background.
+**Browse themes. Open `import.txt`. Copy one line. Import it in Codex Desktop.**
 
-> Morph is an independent community project and is not affiliated with or endorsed by OpenAI or Anthropic.
+</div>
 
-## Current status
+Morph is an open-source Codex Desktop theme collection and generator. Theme folders contain readable source definitions, generated previews, and a direct import file. Morph never edits Codex settings or application files.
 
-| Capability | Status |
-| --- | --- |
-| Claude Warm and VOID dark theme profiles | Stable profile artifacts; Desktop import acceptance is build dependent |
-| Profile validation and share-string export | Implemented in the PowerShell CLI |
-| Backup and restore of an explicitly selected file | Implemented; restore refuses to overwrite |
-| Direct Codex Desktop installation | Not implemented; use the app's visible settings |
-| Layout, sidebar position, panel arrangement | Planned; no supported interface established |
-| Codex CLI adapter | Planned separately; CLI uses TextMate `.tmTheme` files |
+## Import a theme
 
-## Quick start
+1. Choose a theme in the gallery and open its **Import theme** link. Each link opens that theme’s `import.txt` directly; `schemas/theme.schema.json` is only a source validation schema, not a theme.
+2. Copy the full single line beginning with `codex-theme-v1:`.
+3. In Codex Desktop, open **Settings → Appearance** and choose **Import** in the matching Light or Dark theme section.
+4. Paste the line, review the preview, and confirm the import.
 
-Requires PowerShell 7.4 or newer. Clone the repository, then run:
+The `codex-theme-v1:` format is community-derived. OpenAI’s public documentation describes appearance customization but does not document this import payload or guarantee compatibility. A user-reported manual test on Windows confirmed that a Morph theme was accepted and changed the main application background, chat sidebar colors, and accents while text remained readable. The far-left navigation rail and top application bar kept their original styling. The app build was not recorded, restart persistence has not been checked, and this does not establish cross-version compatibility. If your installed build has no Import control or rejects a theme, stop.
+
+## Theme gallery
+
+Preview images are generated from the source colors. They are illustrative theme previews, not screenshots of Codex Desktop.
+
+| Theme | Mode | Preview | Import | Theme attribution |
+| --- | --- | --- | --- | --- |
+| Absolutely Light | light | [absolutely-light/preview.svg](themes/absolutely-light/preview.svg) | [**Import theme**](themes/absolutely-light/import.txt) | OpenAI / Codex Themes |
+| Ayu Dark | dark | [ayu-dark/preview.svg](themes/ayu-dark/preview.svg) | [**Import theme**](themes/ayu-dark/import.txt) | teabyii / Codex Themes |
+| Ayu Light | light | [ayu-light/preview.svg](themes/ayu-light/preview.svg) | [**Import theme**](themes/ayu-light/import.txt) | teabyii / Codex Themes |
+| Catppuccin Latte | light | [catppuccin-latte/preview.svg](themes/catppuccin-latte/preview.svg) | [**Import theme**](themes/catppuccin-latte/import.txt) | Catppuccin / Codex Themes |
+| Catppuccin Mocha | dark | [catppuccin-mocha/preview.svg](themes/catppuccin-mocha/preview.svg) | [**Import theme**](themes/catppuccin-mocha/import.txt) | Catppuccin / Codex Themes |
+| Claude Warm | dark | [claude-warm/preview.svg](themes/claude-warm/preview.svg) | [**Import theme**](themes/claude-warm/import.txt) | Morph (independent adaptation) |
+| Codex Dark | dark | [codex-dark/preview.svg](themes/codex-dark/preview.svg) | [**Import theme**](themes/codex-dark/import.txt) | OpenAI / Codex Themes |
+| Dracula | dark | [dracula/preview.svg](themes/dracula/preview.svg) | [**Import theme**](themes/dracula/import.txt) | Dracula Theme / Codex Themes |
+| Everforest Dark | dark | [everforest-dark/preview.svg](themes/everforest-dark/preview.svg) | [**Import theme**](themes/everforest-dark/import.txt) | sainnhe / Codex Themes |
+| Everforest Light | light | [everforest-light/preview.svg](themes/everforest-light/preview.svg) | [**Import theme**](themes/everforest-light/import.txt) | sainnhe / Codex Themes |
+| GitHub Dark | dark | [github-dark/preview.svg](themes/github-dark/preview.svg) | [**Import theme**](themes/github-dark/import.txt) | GitHub / Codex Themes |
+| GitHub Light | light | [github-light/preview.svg](themes/github-light/preview.svg) | [**Import theme**](themes/github-light/import.txt) | GitHub / Codex Themes |
+| Gruvbox Dark | dark | [gruvbox-dark/preview.svg](themes/gruvbox-dark/preview.svg) | [**Import theme**](themes/gruvbox-dark/import.txt) | morhetz / Codex Themes |
+| Gruvbox Light | light | [gruvbox-light/preview.svg](themes/gruvbox-light/preview.svg) | [**Import theme**](themes/gruvbox-light/import.txt) | morhetz / Codex Themes |
+| Material Lighter | light | [material-lighter/preview.svg](themes/material-lighter/preview.svg) | [**Import theme**](themes/material-lighter/import.txt) | material-theme / Codex Themes |
+| Material Ocean | dark | [material-ocean/preview.svg](themes/material-ocean/preview.svg) | [**Import theme**](themes/material-ocean/import.txt) | material-theme / Codex Themes |
+| Monokai | dark | [monokai/preview.svg](themes/monokai/preview.svg) | [**Import theme**](themes/monokai/import.txt) | Wimer Hazenberg / Codex Themes |
+| Night Owl | dark | [night-owl/preview.svg](themes/night-owl/preview.svg) | [**Import theme**](themes/night-owl/import.txt) | Sarah Drasner / Codex Themes |
+| Nord | dark | [nord/preview.svg](themes/nord/preview.svg) | [**Import theme**](themes/nord/import.txt) | arcticicestudio / Codex Themes |
+| One Dark | dark | [one-dark/preview.svg](themes/one-dark/preview.svg) | [**Import theme**](themes/one-dark/import.txt) | Atom / Codex Themes |
+| Poimandres | dark | [poimandres/preview.svg](themes/poimandres/preview.svg) | [**Import theme**](themes/poimandres/import.txt) | poimandres / Codex Themes |
+| Rosé Pine | dark | [rose-pine/preview.svg](themes/rose-pine/preview.svg) | [**Import theme**](themes/rose-pine/import.txt) | rose-pine / Codex Themes |
+| Rosé Pine Dawn | light | [rose-pine-dawn/preview.svg](themes/rose-pine-dawn/preview.svg) | [**Import theme**](themes/rose-pine-dawn/import.txt) | rose-pine / Codex Themes |
+| Solarized Dark | dark | [solarized-dark/preview.svg](themes/solarized-dark/preview.svg) | [**Import theme**](themes/solarized-dark/import.txt) | Ethan Schoonover / Codex Themes |
+| Solarized Light | light | [solarized-light/preview.svg](themes/solarized-light/preview.svg) | [**Import theme**](themes/solarized-light/import.txt) | Ethan Schoonover / Codex Themes |
+| Tokyo Day | light | [tokyo-day/preview.svg](themes/tokyo-day/preview.svg) | [**Import theme**](themes/tokyo-day/import.txt) | enkia / Codex Themes |
+| Tokyo Night | dark | [tokyo-night/preview.svg](themes/tokyo-night/preview.svg) | [**Import theme**](themes/tokyo-night/import.txt) | enkia / Codex Themes |
+| VOID / 無名 | dark | [void/preview.svg](themes/void/preview.svg) | [**Import theme**](themes/void/import.txt) | Morph (original) |
+
+The collection contains **28 themes**: 26 adapted from [shaw-baobao/codex-themes](https://github.com/shaw-baobao/codex-themes), plus Morph’s Claude Warm and VOID / 無名. Per-theme source files retain author attribution. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for licensing and provenance.
+
+## Build and validate
+
+Requires PowerShell 7.4 or newer:
 
 ```powershell
- .\scripts\Morph.ps1 list
- .\scripts\Morph.ps1 show claude-warm
- .\scripts\Morph.ps1 export claude-warm
+./scripts/Morph.ps1 help
+./scripts/Morph.ps1 list
+./scripts/Morph.ps1 export nord
+./tools/Build-Themes.ps1
+./tools/Build-Themes.ps1 -Check
+./tests/Run-Tests.ps1
 ```
 
-The export is a `codex-theme-v1:` share string. Copy the full line and, if your Codex Desktop build visibly offers theme import, open **Settings → Appearance → Dark theme → Import**, paste it, inspect the preview, and apply. Morph cannot guarantee that every build accepts the observed community format. If no import control is present or the payload is rejected, stop and keep your current appearance.
+Edit `themes/<slug>/theme.json` as the source of truth. The build validates it against `schemas/theme.schema.json`, then generates `import.txt`, `preview.svg`, and `themes/index.json`. The JSON schema is for contributors and automation. It is not importable by Codex Desktop.
 
-## Beginner: ask Codex to help
+## PowerShell CLI
 
-Open this repository in Codex and paste the prompt in [`prompts/install-theme.md`](prompts/install-theme.md). It asks Codex to read the profile, explain the manual import steps, and avoid editing Codex settings or application files.
+- `list` — list available themes.
+- `show <id>` — inspect a source definition.
+- `preview <id>` — print its generated SVG preview.
+- `export <id>` — print its exact import string.
+- `check` — validate all theme sources and report compatibility as unknown.
+- `diagnostics` — show local Morph and PowerShell details.
+- `backup` and `restore` — copy explicitly named files; restore refuses overwrite. Both support `-WhatIf`.
 
-## Themes
+## Compatibility and safety
 
-- **Claude Warm** — warm charcoal, cream text, terracotta accent.
-- **VOID / 無名** — near-black graphite with a muted red accent.
-
-Profiles are data only. They cannot contain scripts or commands. The v1 schema is intentionally narrower than any undocumented app format and permits only known community-reported code theme IDs. Import compatibility is not asserted as officially guaranteed.
-
-## PowerShell commands
-
-```powershell
- .\scripts\Morph.ps1 list
- .\scripts\Morph.ps1 show void
- .\scripts\Morph.ps1 check
- .\scripts\Morph.ps1 export void -Path .\void.share.txt -WhatIf
- .\scripts\Morph.ps1 backup -Path .\settings.json -WhatIf
- .\scripts\Morph.ps1 restore -Path .\settings.json.morph-backup -BackupPath .\settings-restored.json -WhatIf
- .\scripts\Morph.ps1 diagnostics
-```
-
-`export` writes only the specified output file. `backup` copies one explicitly selected file to a new backup path; by default the destination is timestamped and next to the source. `restore` copies a backup into a destination that must not already exist. Both operations support `-WhatIf`; neither command targets Codex automatically. Restore to a new file, inspect it, then decide manually whether to use it. `-WhatIf` reports the action without performing it.
-
-## Compatibility
-
-Codex Desktop appearance controls and import behavior can change by platform and app build. Current public product material indicates color and font appearance customization; the detailed `codex-theme-v1:` contract is community-observed and not a formal supported API. Use the built-in code theme ID embedded in each profile and confirm the visible preview before applying. Morph has not been verified against every Windows, macOS, or Linux build.
-
-Typography is included as optional font family strings in the profile format; bundled or downloaded fonts are not provided. UI controls remain the source of truth for the current app behavior.
-
-## Security
-
-- No telemetry, credential access, conversation access, hidden downloads, or background service.
-- No administrator privileges required.
-- No remote script execution or arbitrary profile code.
-- No direct changes to Codex settings, authentication, models, MCP, account, project settings, or application bundles.
-- File backup/restore requires explicit paths; restore never overwrites an existing destination.
-
-See [SECURITY.md](SECURITY.md) for reporting vulnerabilities.
+- The import string shape comes from community projects; it is not an officially documented Codex Desktop contract.
+- Built-in code theme IDs are constrained to the upstream collection’s known set, but a specific Codex build may differ.
+- Layout, sidebar, panel, and density customization are unsupported and remain planned.
+- No telemetry, downloads, credentials, conversations, background services, app patching, or application settings writes.
 
 ## Contributing
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md). New profiles must validate against [`themes/profile.schema.json`](themes/profile.schema.json), use documented colors and attribution, and avoid undocumented configuration keys or installation code.
-
-## Roadmap
-
-1. Expand supported profile validation as Codex documents a stable format.
-2. Add reviewed light variants and contrast checks.
-3. Investigate supported layout customization and keep unsupported ideas experimental.
-4. Build a separate Codex CLI theme adapter using `.tmTheme` only when useful.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Preserve theme attribution and update generated files with the build script. New source files must pass the schema and use a known built-in code theme ID.
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+Morph is MIT licensed. Adapted third-party theme sources and licenses are documented in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

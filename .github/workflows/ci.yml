@@ -11,3 +11,6 @@ jobs:
       - name: Run Morph tests
         shell: pwsh
         run: ./tests/Run-Tests.ps1
+      - name: Check generated gallery files
+        shell: pwsh
+        run: ./tools/Build-Themes.ps1 -Check
