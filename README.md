@@ -19,7 +19,7 @@ Morph is a small, open-source toolkit for creating and sharing appearance profil
 
 ## Quick start
 
-Requires Windows PowerShell 7+ or Windows PowerShell 5.1. Clone the repository, then run:
+Requires PowerShell 7.4 or newer. Clone the repository, then run:
 
 ```powershell
  .\scripts\Morph.ps1 list
