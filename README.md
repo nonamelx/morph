@@ -16,7 +16,7 @@ Morph is an open-source Codex Desktop theme collection and generator. Theme fold
 3. In Codex Desktop, open **Settings → Appearance** and choose **Import** in the matching Light or Dark theme section.
 4. Paste the line, review the preview, and confirm the import.
 
-The `codex-theme-v1:` format is community-derived. OpenAI’s public documentation describes appearance customization but does not document this import payload or guarantee compatibility. If your installed build has no Import control or rejects a theme, stop. Morph has not verified these imports against the installed Codex Desktop UI in this environment.
+The `codex-theme-v1:` format is community-derived. OpenAI’s public documentation describes appearance customization but does not document this import payload or guarantee compatibility. A user-reported manual test on Windows confirmed that a Morph theme was accepted and changed the main application background, chat sidebar colors, and accents while text remained readable. The far-left navigation rail and top application bar kept their original styling. The app build was not recorded, restart persistence has not been checked, and this does not establish cross-version compatibility. If your installed build has no Import control or rejects a theme, stop.
 
 ## Theme gallery
 

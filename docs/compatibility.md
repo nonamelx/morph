@@ -8,7 +8,7 @@
 
 ## Experimental
 
-- Desktop import payload compatibility: community repositories contain examples, but public OpenAI documentation does not publish a formal schema or version matrix. A community report notes that an unknown `codeThemeId` can disable import; Morph constrains IDs to the upstream collection's reported built-in set, but actual acceptance remains unverified.
+- Desktop import payload compatibility: community repositories contain examples, but public OpenAI documentation does not publish a formal schema or version matrix. A community report notes that an unknown `codeThemeId` can disable import; Morph constrains IDs to the upstream collection's reported built-in set. One Windows user reported an accepted import, as described below; acceptance on other builds remains unverified.
 - Fonts: theme payloads can include font fields in observed examples, but actual font availability and rendering depend on the host and app build.
 
 ## Planned
@@ -19,7 +19,11 @@
 
 Morph does not patch executables, inject JavaScript/CSS, or edit internal app files.
 
-The current development machine did not expose a Codex Desktop window, so the `codex-theme-v1:` workflow was not verified against an installed Codex build. Users must confirm that their build shows an Import control and accepts the artifact. The previews are generic visual representations generated from source colors; they do not depict Codex Desktop.
+## User-reported Windows test
+
+A user manually imported a Morph theme into Codex Desktop on Windows and reported that the app accepted the import. The main application background, chat sidebar, and accent colors changed, and text remained readable in the tested interface. The far-left navigation rail and top application bar retained their original styling. This observation was reported by the user and was not independently reproduced by the Morph development workflow.
+
+The theme name and Codex Desktop version or build were not provided. Persistence after restarting Codex has not been verified. This single observation does not establish compatibility across versions or full interface coverage. Users must confirm that their build shows an Import control and accepts the artifact. The previews are generic visual representations generated from source colors; they do not depict Codex Desktop.
 
 ## Sources (reviewed 2026-11-12)
 
