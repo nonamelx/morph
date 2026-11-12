@@ -12,6 +12,8 @@ export function customizeImport(source, colors) {
   payload.theme.surface = colors.background;
   payload.theme.ink = colors.foreground;
   payload.theme.accent = colors.accent;
+  payload.theme.semanticColors ??= {};
+  for (const key of ['diffAdded','diffRemoved','skill']) if (colors[key]) payload.theme.semanticColors[key] = colors[key];
   return prefix + JSON.stringify(payload);
 }
 const xml = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
@@ -28,10 +30,33 @@ export function normalizeTheme(meta, source) {
   return {id:meta.slug,name:meta.name,author:meta.author,mode:meta.mode,shared:{...palette,semantic},desktop:{source,overrides},cli:{overrides:{}}};
 }
 export function validateColors(colors) {
+  for (const key of ['background','foreground','accent','keyword','string','number','diffAdded','diffRemoved']) if (colors[key] !== undefined && !/^#[0-9a-fA-F]{6}$/.test(colors[key])) throw new Error(`Invalid ${key}`);
   for (const key of ['background','foreground','accent']) if (!/^#[0-9a-fA-F]{6}$/.test(colors[key])) throw new Error(`Invalid ${key}`);
 }
 export function exportTmTheme(name, colors) {
   validateColors(colors);
   if (typeof name !== 'string' || [...name].some(c => { const n = c.codePointAt(0); return !(n === 9 || n === 10 || n === 13 || (n >= 0x20 && n <= 0xd7ff) || (n >= 0xe000 && n <= 0xfffd) || (n >= 0x10000 && n <= 0x10ffff)); })) throw new Error('Invalid name');
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">\n<plist version="1.0"><dict><key>name</key><string>${xml(name)}</string><key>settings</key><array><dict><key>settings</key><dict><key>background</key><string>${colors.background}</string><key>foreground</key><string>${colors.foreground}</string><key>caret</key><string>${colors.accent}</string><key>selection</key><string>${colors.accent}</string></dict></dict><dict><key>scope</key><string>keyword, storage, constant, entity.name.function</string><key>settings</key><dict><key>foreground</key><string>${colors.accent}</string></dict></dict></array></dict></plist>\n`;
+  const scopes = [['keyword, storage, entity.name.function','keyword'],['string','string'],['constant.numeric, constant.language','number'],['diff.inserted, markup.inserted','diffAdded'],['diff.deleted, markup.deleted','diffRemoved']];
+  const rules = scopes.filter(([,key])=>colors[key]).map(([scope,key])=>`<dict><key>scope</key><string>${scope}</string><key>settings</key><dict><key>foreground</key><string>${colors[key]}</string></dict></dict>`).join('') || `<dict><key>scope</key><string>keyword, storage, constant, entity.name.function</string><key>settings</key><dict><key>foreground</key><string>${colors.accent}</string></dict></dict>`;
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">\n<plist version="1.0"><dict><key>name</key><string>${xml(name)}</string><key>settings</key><array><dict><key>settings</key><dict><key>background</key><string>${colors.background}</string><key>foreground</key><string>${colors.foreground}</string><key>caret</key><string>${colors.accent}</string><key>selection</key><string>${colors.accent}</string></dict></dict>${rules}</array></dict></plist>\n`;
+}
+
+export const PROFILE_SCHEMA_VERSION = 1;
+export function validateProfile(profile) {
+  if (!profile || profile.schemaVersion !== PROFILE_SCHEMA_VERSION || typeof profile.name !== 'string' || !profile.name.trim() || !['dark','light'].includes(profile.mode) || !profile.colors || typeof profile.colors !== 'object') throw new Error('Invalid Morph profile');
+  if (profile.name.length > 60 || Array.isArray(profile.colors) || Object.keys(profile.colors).some(k => !['background','foreground','accent','keyword','string','number','diffAdded','diffRemoved'].includes(k)) || (profile.baseTheme !== undefined && (typeof profile.baseTheme !== 'string' || !/^[a-z0-9-]+$/.test(profile.baseTheme)))) throw new Error('Invalid Morph profile');
+  validateColors(profile.colors);
+  return profile;
+}
+export function exportProfile(profile) { validateProfile(profile); return JSON.stringify(profile,null,2); }
+export function importProfile(text) { let profile; try { profile=JSON.parse(text); } catch { throw new Error('Profile must be valid JSON'); } return validateProfile(profile); }
+export function createHistory(initial) {
+  let past=[], present=structuredClone(initial), future=[];
+  return { get present(){return present}, get canUndo(){return past.length>0}, get canRedo(){return future.length>0}, push(value){past.push(present);present=structuredClone(value);future=[]}, undo(){if(past.length){future.unshift(present);present=past.pop()}return present}, redo(){if(future.length){past.push(present);present=future.shift()}return present}, reset(value){past.push(present);present=structuredClone(value);future=[]} };
+}
+
+export function resolveProfileBase(profile, themes) {
+  const base = themes.find(theme => theme.slug === profile.baseTheme);
+  if (!base || base.mode !== profile.mode) throw new Error('Profile base theme is missing, unknown, or has a different mode');
+  return base;
 }
