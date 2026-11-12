@@ -1,0 +1,3 @@
+*.morph-backup-*
+*.share.txt
+TestResults/

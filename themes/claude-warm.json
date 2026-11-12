@@ -1,0 +1,16 @@
+{
+  "id": "claude-warm",
+  "name": "Claude Warm",
+  "description": "Warm charcoal, cream and muted terracotta.",
+  "payload": {
+    "codeThemeId": "one",
+    "theme": {
+      "accent": "#c57b60", "contrast": 60,
+      "fonts": { "code": null, "ui": null },
+      "ink": "#f4eee5", "opaqueWindows": true,
+      "semanticColors": { "diffAdded": "#81b88b", "diffRemoved": "#d68272", "skill": "#c57b60" },
+      "surface": "#302d2b"
+    },
+    "variant": "dark"
+  }
+}
