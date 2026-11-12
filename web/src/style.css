@@ -11,3 +11,11 @@
   .studio-canvas .conversation { overflow-y: auto; }
   .studio-canvas .code pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 }
+@media (max-width: 650px) {
+  .codex, .studio-canvas .codex { height: auto; min-height: 480px; }
+  .codex-sidebar { display: none; }
+  .codex-main { overflow: visible; }
+  .codex-header { min-width: 0; overflow-wrap: anywhere; }
+  .conversation, .studio-canvas .conversation { height: auto; overflow: visible; }
+  .codex .code pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+}
