@@ -1,7 +1,7 @@
 #Requires -Version 7.4
 [CmdletBinding(SupportsShouldProcess = $true)]
 param(
-    [Parameter(Position = 0)][ValidateSet('list','show','check','export','backup','restore','diagnostics','help')][string]$Command = 'help',
+    [Parameter(Position = 0)][ValidateSet('list','show','check','export','backup','restore','diagnostics','help','preview')][string]$Command = 'help',
     [Parameter(Position = 1)][string]$Theme,
     [string]$Path,
     [string]$BackupPath
@@ -40,19 +40,48 @@ function Read-Profile([string]$Id) {
 
 function Get-ThemeFiles { Get-ChildItem -LiteralPath $script:ThemesDir -Filter '*.json' -File | Where-Object Name -ne 'profile.schema.json' }
 
+function Get-Artifact([string]$Id) {
+    $p = Read-Profile $Id
+    $canonical = [ordered]@{
+        codeThemeId = $p.payload.codeThemeId
+        theme = [ordered]@{
+            accent = $p.payload.theme.accent
+            contrast = $p.payload.theme.contrast
+            fonts = [ordered]@{ code = $p.payload.theme.fonts.code; ui = $p.payload.theme.fonts.ui }
+            ink = $p.payload.theme.ink
+            opaqueWindows = $p.payload.theme.opaqueWindows
+            semanticColors = [ordered]@{
+                diffAdded = $p.payload.theme.semanticColors.diffAdded
+                diffRemoved = $p.payload.theme.semanticColors.diffRemoved
+                skill = $p.payload.theme.semanticColors.skill
+            }
+            surface = $p.payload.theme.surface
+        }
+        variant = $p.payload.variant
+    }
+    'codex-theme-v1:' + ($canonical | ConvertTo-Json -Depth 20 -Compress)
+}
+
 switch ($Command) {
     'help' { @'
 Morph — Shape your Codex.
-Commands: list | show <id> | check | export <id> [-Path file] | backup -Path <source> [-BackupPath <destination>] | restore -Path <backup> -BackupPath <destination> | diagnostics
-Export writes a native theme share string. Import it through Codex Desktop Settings > Appearance.
+Commands: help | list | show <id> | preview <id> | check | export <id> [-Path file] | backup -Path <source> [-BackupPath <destination>] | restore -Path <backup> -BackupPath <destination> | diagnostics
+Export writes an observed theme share string. Import remains build dependent and unverified; use Codex Desktop Settings > Appearance only if Import is visible.
 '@ }
     'list' { foreach ($f in Get-ThemeFiles) { $p = Read-Profile $f.BaseName; [pscustomobject]@{ Id=$p.id; Name=$p.name; Variant=$p.payload.variant } } }
     'show' { if (-not $Theme) { throw 'Specify a theme id.' }; Read-Profile $Theme | ConvertTo-Json -Depth 20 }
+    'preview' {
+        if (-not $Theme) { throw 'Specify a theme id.' }
+        $null = Read-Profile $Theme
+        $svg = Join-Path $script:ThemesDir "$Theme.svg"
+        if (-not (Test-Path -LiteralPath $svg -PathType Leaf)) { throw "Preview not found for '$Theme'. Run tools/Generate-Previews.ps1." }
+        Get-Content -LiteralPath $svg -Raw
+    }
     'check' { foreach ($f in Get-ThemeFiles) { $null = Read-Profile $f.BaseName }; "Validated $(@(Get-ThemeFiles).Count) profiles against Morph v1 constraints."; 'Codex Desktop compatibility: unknown. Check whether Settings > Appearance visibly offers theme import; no build matrix is verified.' }
     'export' {
         if (-not $Theme) { throw 'Specify a theme id.' }
         $p = Read-Profile $Theme
-        $serialized = 'codex-theme-v1:' + ($p.payload | ConvertTo-Json -Depth 20 -Compress)
+        $serialized = Get-Artifact $Theme
         if ($Path) {
             $target = [IO.Path]::GetFullPath($Path)
             if (Test-Path -LiteralPath $target) { throw "Refusing to overwrite existing path: $target" }
