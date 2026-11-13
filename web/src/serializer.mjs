@@ -1,3 +1,6 @@
+import Ajv from 'ajv';
+import profileSchema from './profile-v1.schema.json' with { type: 'json' };
+const profileValidator = new Ajv().compile(profileSchema);
 const prefix = 'codex-theme-v1:';
 export function paletteFromImport(source) {
   if (!source.startsWith(prefix)) throw new Error('Invalid import');
@@ -7,8 +10,9 @@ export function paletteFromImport(source) {
 export function customizeImport(source, colors) {
   validateColors(colors);
   const initial = paletteFromImport(source);
-  if (Object.keys(initial).every(key => initial[key] === colors[key])) return source;
   const payload = JSON.parse(source.slice(prefix.length));
+  const semantic = payload.theme.semanticColors ?? {};
+  if (Object.keys(initial).every(key => initial[key] === colors[key]) && ['diffAdded','diffRemoved','skill'].every(key => !colors[key] || colors[key] === semantic[key])) return source;
   payload.theme.surface = colors.background;
   payload.theme.ink = colors.foreground;
   payload.theme.accent = colors.accent;
@@ -33,9 +37,10 @@ export function validateColors(colors) {
   for (const key of ['background','foreground','accent','keyword','string','number','diffAdded','diffRemoved']) if (colors[key] !== undefined && !/^#[0-9a-fA-F]{6}$/.test(colors[key])) throw new Error(`Invalid ${key}`);
   for (const key of ['background','foreground','accent']) if (!/^#[0-9a-fA-F]{6}$/.test(colors[key])) throw new Error(`Invalid ${key}`);
 }
+const validXmlName = name => typeof name === 'string' && [...name].every(c => { const n = c.codePointAt(0); return n === 9 || n === 10 || n === 13 || (n >= 0x20 && n <= 0xd7ff) || (n >= 0xe000 && n <= 0xfffd) || (n >= 0x10000 && n <= 0x10ffff); });
 export function exportTmTheme(name, colors) {
   validateColors(colors);
-  if (typeof name !== 'string' || [...name].some(c => { const n = c.codePointAt(0); return !(n === 9 || n === 10 || n === 13 || (n >= 0x20 && n <= 0xd7ff) || (n >= 0xe000 && n <= 0xfffd) || (n >= 0x10000 && n <= 0x10ffff)); })) throw new Error('Invalid name');
+  if (!validXmlName(name)) throw new Error('Invalid name');
   const scopes = [['keyword, storage, entity.name.function','keyword'],['string','string'],['constant.numeric, constant.language','number'],['diff.inserted, markup.inserted','diffAdded'],['diff.deleted, markup.deleted','diffRemoved']];
   const rules = scopes.filter(([,key])=>colors[key]).map(([scope,key])=>`<dict><key>scope</key><string>${scope}</string><key>settings</key><dict><key>foreground</key><string>${colors[key]}</string></dict></dict>`).join('') || `<dict><key>scope</key><string>keyword, storage, constant, entity.name.function</string><key>settings</key><dict><key>foreground</key><string>${colors.accent}</string></dict></dict>`;
   return `<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">\n<plist version="1.0"><dict><key>name</key><string>${xml(name)}</string><key>settings</key><array><dict><key>settings</key><dict><key>background</key><string>${colors.background}</string><key>foreground</key><string>${colors.foreground}</string><key>caret</key><string>${colors.accent}</string><key>selection</key><string>${colors.accent}</string></dict></dict>${rules}</array></dict></plist>\n`;
@@ -43,8 +48,7 @@ export function exportTmTheme(name, colors) {
 
 export const PROFILE_SCHEMA_VERSION = 1;
 export function validateProfile(profile) {
-  if (!profile || profile.schemaVersion !== PROFILE_SCHEMA_VERSION || typeof profile.name !== 'string' || !profile.name.trim() || !['dark','light'].includes(profile.mode) || !profile.colors || typeof profile.colors !== 'object') throw new Error('Invalid Morph profile');
-  if (profile.name.length > 60 || Array.isArray(profile.colors) || Object.keys(profile.colors).some(k => !['background','foreground','accent','keyword','string','number','diffAdded','diffRemoved'].includes(k)) || (profile.baseTheme !== undefined && (typeof profile.baseTheme !== 'string' || !/^[a-z0-9-]+$/.test(profile.baseTheme)))) throw new Error('Invalid Morph profile');
+  if (!profileValidator(profile) || !validXmlName(profile.name)) throw new Error('Invalid Morph profile');
   validateColors(profile.colors);
   return profile;
 }
