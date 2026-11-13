@@ -19,6 +19,11 @@ jobs:
           npm ci
           npm test
           npm run build
+      - name: Install browser and test Studio interactions
+        working-directory: web
+        run: |
+          npx playwright install chromium
+          npm run test:ui
       - name: Run Morph tests
         shell: pwsh
         run: ./tests/Run-Tests.ps1
