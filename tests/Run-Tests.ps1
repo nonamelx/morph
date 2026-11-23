@@ -105,6 +105,21 @@ try {
     $backupWhatIf = Join-Path $tmp 'backup-whatif'
     & $cli backup -Path $sourceFile -BackupPath $backupWhatIf -WhatIf | Out-Null
     if (Test-Path -LiteralPath $backupWhatIf) { throw 'Backup -WhatIf wrote a file.' }
+    Push-Location -LiteralPath $tmp
+    try {
+        $relativeName = 'relative-backup-' + [guid]::NewGuid().ToString('N')
+        $expected = Join-Path $tmp $relativeName
+        $preview = & $cli backup -Path 'source.txt' -BackupPath $relativeName -WhatIf
+        if ($preview -ne $expected) { throw 'Relative backup output ignored the PowerShell working directory.' }
+        & $cli backup -Path 'source.txt' -BackupPath $relativeName | Out-Null
+        $relativeRestore = "$relativeName.restored"
+        & $cli restore -Path $relativeName -BackupPath $relativeRestore | Out-Null
+        & $cli export nord -Path 'nord-export.txt'
+        if ((Get-Content -LiteralPath $relativeRestore -Raw).Trim() -ne 'fixture') { throw 'Relative restore path failed.' }
+        if ((Get-Content -LiteralPath 'nord-export.txt' -Raw).Trim() -cne (& $cli export nord)) { throw 'Relative export path failed.' }
+    } finally {
+        Pop-Location
+    }
     'All Morph tests passed.'
 } finally {
     Remove-Item -LiteralPath $tmp -Recurse -Force
