@@ -17,6 +17,19 @@ test('unified themes and deterministic CLI exports',async()=>{for(const d of (aw
 test('CLI export escapes names and rejects invalid colors',()=>{const p={background:'#112233',foreground:'#abcdef',accent:'#aabbcc'};assert.match(exportTmTheme('A & <B>',p),/A &amp; &lt;B&gt;/);assert.throws(()=>validateColors({...p,accent:'red'}));assert.throws(()=>exportTmTheme('bad\u0000',p));});
 test('rejects invalid XML code points and metadata',async()=>{const p={background:'#112233',foreground:'#abcdef',accent:'#aabbcc'};for(const value of ['\uffff','\ud800','\udfff','\u0000'])assert.throws(()=>exportTmTheme(value,p));assert.doesNotThrow(()=>exportTmTheme('Theme 🎨',p));const src=(await readFile('../themes/claude-warm/import.txt','utf8')).trim();assert.throws(()=>normalizeTheme({slug:'bad/id',name:'x',author:'x',mode:'dark'},src));assert.throws(()=>normalizeTheme({slug:'test',name:'x',author:'x',mode:'light'},src));const model=normalizeTheme({slug:'test',name:'x',author:'x',mode:'dark'},src);assert.equal(model.shared.semantic.skill,'#c57b60');assert.equal(model.desktop.overrides.contrast,60);});
 import {readProfiles,writeProfiles} from './src/profile-storage.mjs';
+test('blocked browser storage does not prevent Studio startup', () => {
+  const descriptor = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
+  Object.defineProperty(globalThis, 'localStorage', {
+    configurable: true,
+    get() { throw new Error('Storage blocked'); },
+  });
+  try {
+    assert.deepEqual(readProfiles(), []);
+  } finally {
+    if (descriptor) Object.defineProperty(globalThis, 'localStorage', descriptor);
+    else delete globalThis.localStorage;
+  }
+});
 test('profile storage round trips and ignores corrupt data',()=>{let value=null;const storage={getItem:()=>value,setItem:(_k,v)=>{value=v}};const p={id:'one',schemaVersion:1,name:'Example',mode:'dark',colors:{background:'#111111',foreground:'#eeeeee',accent:'#aa7755'}};writeProfiles([p],storage);assert.deepEqual(readProfiles(storage),[p]);value='{invalid';assert.deepEqual(readProfiles(storage),[]);value=JSON.stringify([p,{id:'bad'}]);assert.deepEqual(readProfiles(storage),[p]);});
 
 import {resolveProfileBase} from './src/serializer.mjs';
