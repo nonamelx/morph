@@ -40,7 +40,26 @@ const choose=(t:Theme)=>{setProfileId('');setSelected(t);setPalette(colors(t));s
   setPage(next);
   setMobile(false);
   window.scrollTo(0, 0);
-};const change=(key:keyof Colors,value:string)=>{setHistory(h=>[...h,{palette,name,selected,profileId}]);setFuture([]);setPalette({...palette,[key]:value})};const undo=()=>{if(history.length){setFuture(f=>[{palette,name,selected,profileId},...f]);setPalette(history[history.length-1].palette);setName(history[history.length-1].name);setSelected(history[history.length-1].selected);setProfileId(history[history.length-1].profileId);setHistory(history.slice(0,-1))}};const redo=()=>{if(future.length){setHistory(h=>[...h,{palette,name,selected,profileId}]);setPalette(future[0].palette);setName(future[0].name);setSelected(future[0].selected);setProfileId(future[0].profileId);setFuture(future.slice(1))}};const reset=()=>{setHistory(h=>[...h,{palette,name,selected,profileId}]);setFuture([]);setPalette(colors(selected));setName(selected.name)};const persist=(items:any[])=>{try{writeProfiles(items);setProfiles(items);return true}catch{setNotice('Could not save profiles in this browser');return false}};const profile={schemaVersion:1,name,mode:selected.mode,baseTheme:selected.slug,colors:palette};const saveProfile=(profileName=name)=>{try{const saved={...profile,name:profileName};importProfile(JSON.stringify(saved));const id=crypto.randomUUID();if(persist([...profiles,{...saved,id}])){setProfileId(id);setName(profileName);setNotice('Profile saved locally')}}catch{setNotice('Enter a valid profile name')}};const downloadProfile=()=>{
+};const change=(key:keyof Colors,value:string)=>{setHistory(h=>[...h,{palette,name,selected,profileId}]);setFuture([]);setPalette({...palette,[key]:value})};const undo=()=>{if(history.length){setFuture(f=>[{palette,name,selected,profileId},...f]);setPalette(history[history.length-1].palette);setName(history[history.length-1].name);setSelected(history[history.length-1].selected);setProfileId(history[history.length-1].profileId);setHistory(history.slice(0,-1))}};const redo=()=>{if(future.length){setHistory(h=>[...h,{palette,name,selected,profileId}]);setPalette(future[0].palette);setName(future[0].name);setSelected(future[0].selected);setProfileId(future[0].profileId);setFuture(future.slice(1))}};const reset=()=>{setHistory(h=>[...h,{palette,name,selected,profileId}]);setFuture([]);setPalette(colors(selected));setName(selected.name)};const persist=(items:any[])=>{try{writeProfiles(items);setProfiles(items);return true}catch{setNotice('Could not save profiles in this browser');return false}};const profile={schemaVersion:1,name,mode:selected.mode,baseTheme:selected.slug,colors:palette};
+const saveProfile = (duplicateName?: string) => {
+  const profileName = duplicateName ?? name;
+  try {
+    const saved = {...profile, name: profileName};
+    importProfile(JSON.stringify(saved));
+    const existing = duplicateName === undefined && profiles.find(item => item.id === profileId);
+    const id = existing ? existing.id : crypto.randomUUID();
+    const entry = {...saved, id};
+    const next = existing ? profiles.map(item => item.id === id ? entry : item) : [...profiles, entry];
+    if (persist(next)) {
+      setProfileId(id);
+      setName(profileName);
+      setNotice('Profile saved locally');
+    }
+  } catch {
+    setNotice('Enter a valid profile name');
+  }
+};
+const downloadProfile=()=>{
   let json: string;
   try {
     json = exportProfile(profile);
