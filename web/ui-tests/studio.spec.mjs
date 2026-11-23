@@ -94,3 +94,28 @@ test('CLI export uses the edited profile name in the filename and plist', async 
   expect(file.suggestedFilename()).toBe('night-day.tmTheme');
   expect(await readFile(await file.path(), 'utf8')).toContain('<key>name</key><string>Night &amp; Day</string>');
 });
+
+test('catalog arrows stay within the search and mode results', async ({ page }) => {
+  await page.goto('/morph/#themes');
+  const search = page.getByRole('textbox', { name: 'Search themes' });
+  const next = page.getByRole('button', { name: 'Next theme' });
+  const previous = page.getByRole('button', { name: 'Previous theme' });
+
+  await search.fill('Ayu');
+  await next.click();
+  await expect(page.getByRole('heading', { name: 'Ayu Dark' })).toBeVisible();
+  await next.click();
+  await expect(page.getByRole('heading', { name: 'Ayu Light' })).toBeVisible();
+  await next.click();
+  await expect(page.getByRole('heading', { name: 'Ayu Dark' })).toBeVisible();
+  await previous.click();
+  await expect(page.getByRole('heading', { name: 'Ayu Light' })).toBeVisible();
+
+  await page.getByRole('button', { name: 'dark', exact: true }).click();
+  await previous.click();
+  await expect(page.getByRole('heading', { name: 'Ayu Dark' })).toBeVisible();
+
+  await search.fill('no matching theme');
+  await expect(next).toBeDisabled();
+  await expect(previous).toBeDisabled();
+});
