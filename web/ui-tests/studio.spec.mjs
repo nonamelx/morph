@@ -82,3 +82,15 @@ test('mobile view and comparison preserve editor state and history',async({page}
   await page.getByRole('button',{name:'Reset',exact:true}).click(); await expect(accent).toHaveValue(original);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
+
+test('CLI export uses the edited profile name in the filename and plist', async ({ page }) => {
+  await studio(page);
+  await page.getByLabel('Profile name').fill('Night & Day');
+
+  const download = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Export CLI' }).click();
+  const file = await download;
+
+  expect(file.suggestedFilename()).toBe('night-day.tmTheme');
+  expect(await readFile(await file.path(), 'utf8')).toContain('<key>name</key><string>Night &amp; Day</string>');
+});
