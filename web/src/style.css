@@ -26,3 +26,10 @@
 .studio-canvas .conversation{overflow-y:auto}
 .studio-canvas .codex{height:auto;min-height:640px}.studio-canvas .codex-main{overflow:visible}.studio-canvas .conversation{height:auto;overflow:visible}
 @media(max-width:650px){.studio-canvas .codex{min-height:480px}}
+
+@media (min-width: 768px) and (max-width: 960px) {
+  .site-header nav { gap: 20px; }
+  .site-header .brand, .command-trigger { white-space: nowrap; }
+  .command-trigger kbd { display: none; }
+  .studio-bar { align-items: flex-start; flex-direction: column; }
+}

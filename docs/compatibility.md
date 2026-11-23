@@ -23,12 +23,12 @@ Morph does not patch executables, inject JavaScript/CSS, or edit internal app fi
 
 A user manually imported a Morph theme into Codex Desktop on Windows and reported that the app accepted the import. The main application background, chat sidebar, and accent colors changed, and text remained readable in the tested interface. The far-left navigation rail and top application bar retained their original styling. This observation was reported by the user and was not independently reproduced by the Morph development workflow.
 
-The theme name and Codex Desktop version or build were not provided. Persistence after restarting Codex has not been verified. This single observation does not establish compatibility across versions or full interface coverage. Users must confirm that their build shows an Import control and accepts the artifact. The previews are generic visual representations generated from source colors; they do not depict Codex Desktop.
+The theme name and Codex Desktop version or build were not provided. Persistence after restarting Codex has not been verified. This single observation does not establish compatibility across versions or full interface coverage. Check whether your build shows an Import control and accepts the artifact. The gallery SVGs are palette swatches. Studio's illustrative workspace recreation uses the import colors and keeps the far-left rail and top bar neutral.
 
 ## Sources (reviewed 2026-11-12)
 
 - [Codex CLI customization (OpenAI documentation)](https://learn.chatgpt.com/docs/cli-customization) documents the separate `.tmTheme` workflow for the CLI.
-- [Codex app appearance settings (OpenAI documentation)](https://learn.chatgpt.com/docs/reference/settings) describes Desktop theme, color, and font controls and theme sharing, but does not specify the observed import string contract.
+- [OpenAI desktop settings reference](https://learn.chatgpt.com/docs/reference/settings) describes ChatGPT desktop appearance controls and theme sharing. Its applicability to the tested Codex Desktop build is unverified, and it does not specify the observed import string contract.
 - [Codex config basics (OpenAI documentation)](https://learn.chatgpt.com/docs/config-file/config-basic) describes the user-level `config.toml`; Morph does not write it.
 - [Anthropic Codex Theme](https://github.com/miniLV/Anthropic-codex-theme) and [Claude Warm Codex App Theme](https://github.com/YuChenSSR/claude-warm-codex-app-theme) are community research references, not trusted installer instructions. The latter includes sample `codex-theme-v1:` payloads.
 - [Codex Themes](https://github.com/shaw-baobao/codex-themes) provides the adapted source-to-import mapping approach and source-theme definitions; Morph's notices document exact licensing and commit provenance.
