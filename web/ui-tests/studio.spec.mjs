@@ -43,6 +43,34 @@ test('saved profiles survive reload and export valid JSON', async ({ page }) => 
   await expect(page.getByRole('status')).toContainText('Enter a valid profile name');
 });
 
+test('saving edits updates the selected profile while duplicate creates a separate copy', async ({ page }) => {
+  await studio(page);
+  const profileName = page.getByRole('textbox', { name: 'Profile name' });
+  const savedProfiles = page.getByLabel('Saved profiles');
+  const save = page.getByRole('button', { name: 'Save locally' });
+
+  await profileName.fill('Daily work');
+  await save.click();
+  const profileId = await savedProfiles.inputValue();
+  await profileName.fill('Daily work edited');
+  const accent = page.getByRole('textbox', { name: 'accent HEX', exact: true });
+  await accent.fill('#89b4fa');
+  await accent.blur();
+  await save.click();
+
+  await expect(savedProfiles).toHaveValue(profileId);
+  await expect(savedProfiles.getByRole('option')).toHaveCount(2);
+  await page.reload();
+  await savedProfiles.selectOption(profileId);
+  await expect(profileName).toHaveValue('Daily work edited');
+  await expect(accent).toHaveValue('#89b4fa');
+
+  await menu(page);
+  await page.getByRole('button', { name: 'Duplicate current' }).click();
+  await expect(savedProfiles.getByRole('option')).toHaveCount(3);
+  await expect(savedProfiles).toContainText('Daily work edited Copy');
+});
+
 test('profiles: menu, confirmation, rejected import and exports', async ({page}) => {
   await studio(page);
   await page.getByLabel('Profile name').fill('Test profile');
