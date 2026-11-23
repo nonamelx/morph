@@ -1,36 +1,71 @@
 <div align="center">
 
 # MORPH
-### Shape your Codex.
 
-**Browse themes. Open `import.txt`. Copy one line. Import it in Codex Desktop.**
+**Shape your Codex.**
+
+Explore 28 themes, refine a palette, and export it for Codex Desktop and CLI.
 
 </div>
 
-Morph is an open-source Codex Desktop theme collection and generator. Theme folders contain readable source definitions, generated previews, and a direct import file. Morph never edits Codex settings or application files.
+![Morph Studio on desktop](docs/assets/hero-desktop.png)
 
-## Morph Studio: Desktop and CLI
+Morph Studio brings a theme collection, switchable target previews, a color editor, and local profiles into one workspace. Codex provides its own theme settings and CLI picker. Morph helps you browse, customize, and export a palette for those separate workflows.
 
-The Studio prototype uses one palette to preview Desktop and CLI, and offers a Desktop import string and an experimental CLI `.tmTheme` download. The previews are illustrative. Desktop's community-derived import format and the CLI's syntax theme format are separate; a shared palette does not guarantee identical appearance. Morph adds a collection, palette editor, previews, and exports; it does not replace Codex's own theme picker.
+[Quick start](#quick-start) · [Theme gallery](#theme-gallery) · [Studio and profiles](#studio-and-profiles) · [Development](#development) · [Compatibility](docs/compatibility.md)
 
-Run locally with `cd web`, `npm ci`, and `npm run dev`. In Studio, select a theme, edit its colors, switch preview targets, then copy the Desktop import or download the CLI theme. Morph never installs either artifact automatically.
+## Quick start
 
-To try the CLI file, place it in `$CODEX_HOME/themes` (normally `~/.codex/themes`, or `%USERPROFILE%\.codex\themes` on Windows when `CODEX_HOME` is unset), start Codex CLI, and choose its filename without `.tmTheme` with `/theme`. [OpenAI's CLI documentation](https://learn.chatgpt.com/docs/cli-customization) describes `.tmTheme` support for syntax highlighting and the picker. Morph exports global colors and accent rules for selected syntax scopes. A generated theme was selected in Codex CLI v0.167.2 on Windows; color rendering remains unverified. Terminal chrome, prompts, and general UI colors may remain controlled by the terminal or Codex.
+For a Desktop theme without installing Studio:
 
-Desktop import was accepted in one user-reported Windows test; the navigation rail and top bar stayed unchanged, and persistence and other versions remain unverified. Future work includes testing generated CLI files in actual Codex builds and expanding the compatibility matrix. See [compatibility notes](docs/compatibility.md) and [contribution guide](CONTRIBUTING.md).
+1. Choose a theme in the [gallery](#theme-gallery) and open **Import theme**.
+2. Copy the full line beginning `codex-theme-v1:`.
+3. In Codex Desktop, open **Settings → Appearance** and choose **Import** in the matching light or dark section.
+4. Paste the line, review the preview, and confirm.
 
-## Import a theme
+If your build has no Import control or rejects the string, consult the [compatibility notes](docs/compatibility.md). The JSON schema describes Morph source files and is not an import file.
 
-1. Choose a theme in the gallery and open its **Import theme** link. Each link opens that theme’s `import.txt` directly; `schemas/theme.schema.json` is only a source validation schema, not a theme.
-2. Copy the full single line beginning with `codex-theme-v1:`.
-3. In Codex Desktop, open **Settings → Appearance** and choose **Import** in the matching Light or Dark theme section.
-4. Paste the line, review the preview, and confirm the import.
+## Studio and profiles
 
-The `codex-theme-v1:` format is community-derived. OpenAI’s public documentation describes appearance customization but does not document this import payload or guarantee compatibility. A user-reported manual test on Windows confirmed that a Morph theme was accepted and changed the main application background, chat sidebar colors, and accents while text remained readable. The far-left navigation rail and top application bar kept their original styling. The app build was not recorded, restart persistence has not been checked, and this does not establish cross-version compatibility. If your installed build has no Import control or rejects a theme, stop.
+Run Studio locally with Node.js and npm:
+
+```powershell
+cd web
+npm ci
+npm run dev
+```
+
+Open the local URL printed by Vite. Use **Themes** to browse, **Studio** to edit, and **Docs** for the in-app guide. Studio provides Desktop and CLI previews, Original and Edited comparison, color controls, contrast feedback, undo, redo, and reset. Previews are illustrative and actual rendering depends on the Codex build and terminal.
+
+With the default local server running, open [Studio](http://127.0.0.1:5173/morph/#studio), [Themes](http://127.0.0.1:5173/morph/#themes), or [Docs](http://127.0.0.1:5173/morph/#docs). If Vite chooses another port, use the URL it prints with the same fragment.
+
+![Morph Studio editor and preview](docs/assets/studio-showcase.png)
+
+In Studio, choose a base theme, adjust colors, then use **Export Desktop** or **Export CLI**. Use **Save locally** for a browser-local profile. The profile actions menu offers duplicate, rename, delete, and JSON import/export. Profiles live in that browser's local storage, so export JSON before clearing browser data or moving to another device. Imported profiles are validated and treated as data.
+
+## Desktop and CLI compatibility
+
+Desktop and CLI use different formats. Desktop uses the community-derived `codex-theme-v1:` import string. A user reported one successful Windows Desktop import, with the main background, chat sidebar, and accents changing while the far-left navigation rail and top bar stayed unchanged. The build and restart persistence were not recorded.
+
+CLI export produces a TextMate `.tmTheme` file for syntax highlighting. Codex CLI v0.167.2 on Windows discovered and selected a generated theme in `/theme`; color rendering was not visually verified. The terminal and Codex control other interface colors. See the [compatibility notes](docs/compatibility.md) and [OpenAI CLI customization guide](https://learn.chatgpt.com/docs/cli-customization).
+
+To install a CLI export:
+
+1. Download the `.tmTheme` file from Studio.
+2. Put it in `$CODEX_HOME/themes`. If `CODEX_HOME` is unset, this is normally `~/.codex/themes` or `%USERPROFILE%\.codex\themes` on Windows. Create the directory if needed.
+3. Start Codex CLI, run `/theme`, and select the filename without `.tmTheme`.
+
+Morph exports files and import strings without changing Codex settings or application bundles. It does not provide layout, panel placement, or full application chrome theming.
+
+![Desktop and mobile Studio](docs/assets/devices-showcase.png)
+
+[View the mobile Preview and Edit showcase](docs/assets/hero-mobile.png) · [Browse the original browser captures](artifacts/screenshots/release)
 
 ## Theme gallery
 
 Preview images are generated from the source colors. They are illustrative theme previews, not screenshots of Codex Desktop.
+
+![A selection of Morph themes](docs/assets/themes-showcase.png)
 
 | Theme | Mode | Preview | Import | Theme attribution |
 | --- | --- | --- | --- | --- |
@@ -65,42 +100,43 @@ Preview images are generated from the source colors. They are illustrative theme
 
 The collection contains **28 themes**: 26 adapted from [shaw-baobao/codex-themes](https://github.com/shaw-baobao/codex-themes), plus Morph’s Claude Warm and VOID / 無名. Per-theme source files retain author attribution. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for licensing and provenance.
 
-## Build and validate
 
-Requires PowerShell 7.4 or newer:
+## Development
+
+Requirements are PowerShell 7.4 or newer for Morph scripts and Node.js with npm for Studio. From the repository root:
 
 ```powershell
 ./scripts/Morph.ps1 help
 ./scripts/Morph.ps1 list
 ./scripts/Morph.ps1 export nord
-./tools/Build-Themes.ps1
 ./tools/Build-Themes.ps1 -Check
 ./tests/Run-Tests.ps1
 ```
 
-Edit `themes/<slug>/theme.json` as the source of truth. The build validates it against `schemas/theme.schema.json`, then generates `import.txt`, `preview.svg`, and `themes/index.json`. The JSON schema is for contributors and automation. It is not importable by Codex Desktop.
+For the website:
 
-## PowerShell CLI
+```powershell
+cd web
+npm ci
+npm run dev
+npm run lint
+npm test
+npx playwright install chromium
+npm run test:ui
+npm run build
+```
 
-- `list` — list available themes.
-- `show <id>` — inspect a source definition.
-- `preview <id>` — print its generated SVG preview.
-- `export <id>` — print its exact import string.
-- `check` — validate all theme sources and report compatibility as unknown.
-- `diagnostics` — show local Morph and PowerShell details.
-- `backup` and `restore` — copy explicitly named files; restore refuses overwrite. Both support `-WhatIf`.
+Edit `themes/<slug>/theme.json` as the source of truth. Run `./tools/Build-Themes.ps1` after editing to validate sources and regenerate import strings, previews, and the catalog. The PowerShell CLI also provides `show`, `preview`, `check`, `diagnostics`, and explicit file `backup` and `restore` operations.
 
-## Compatibility and safety
+## Troubleshooting
 
-- The import string shape comes from community projects; it is not an officially documented Codex Desktop contract.
-- Built-in code theme IDs are constrained to the upstream collection’s known set, but a specific Codex build may differ.
-- Layout, sidebar, panel, and density customization are unsupported and remain planned.
-- No telemetry, downloads, credentials, conversations, background services, app patching, or application settings writes.
+- **Desktop rejects an import:** copy the entire `import.txt` line and use the matching light or dark section. Import availability and accepted fields vary by build.
+- **CLI theme is missing:** check the file extension and the active `$CODEX_HOME/themes` directory, then restart the CLI and open `/theme`.
+- **A local profile is missing:** use the same browser and origin where it was saved. Browser storage can be cleared. Import a previously exported profile JSON to restore it.
+- **Clipboard access fails:** use the selectable Desktop import text in Studio's import/export details.
 
-## Contributing
+Morph does not use a backend, telemetry, credentials, or account data. It validates profile imports and does not execute their contents. Report security concerns using [SECURITY.md](SECURITY.md).
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Preserve theme attribution and update generated files with the build script. New source files must pass the schema and use a known built-in code theme ID.
+## Contributing and license
 
-## License
-
-Morph is MIT licensed. Adapted third-party theme sources and licenses are documented in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md) for source and test guidance. Morph is licensed under [MIT](LICENSE). Theme authors, source URLs, and applicable license terms are recorded in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
