@@ -6,6 +6,8 @@
 
 Explore 28 themes, refine a palette, and export it for Codex Desktop and CLI.
 
+[Open Morph Studio](https://nonamelx.github.io/morph/)
+
 </div>
 
 ![Morph Studio on desktop](docs/assets/hero-desktop.png)
@@ -27,7 +29,7 @@ If your build has no Import control or rejects the string, consult the [compatib
 
 ## Studio and profiles
 
-Run Studio locally with Node.js and npm:
+Open [Studio](https://nonamelx.github.io/morph/#studio), [Themes](https://nonamelx.github.io/morph/#themes), or [Docs](https://nonamelx.github.io/morph/#docs). To run Studio locally, use Node.js and npm:
 
 ```powershell
 cd web
