@@ -51,6 +51,14 @@ function Get-Artifact([string]$Id) {
     'codex-theme-v1:' + ($canonical | ConvertTo-Json -Depth 20 -Compress)
 }
 
+function Resolve-OutputPath([string]$OutputPath) {
+    $provider = $null
+    $drive = $null
+    $resolved = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($OutputPath, [ref]$provider, [ref]$drive)
+    if ($provider.Name -ne 'FileSystem') { throw 'Output destination must be a file system path.' }
+    return $resolved
+}
+
 switch ($Command) {
     'help' { @'
 Morph — Shape your Codex.
@@ -71,7 +79,7 @@ Export writes an observed theme share string. Import remains build dependent and
         if (-not $Theme) { throw 'Specify a theme id.' }
         $serialized = Get-Artifact $Theme
         if ($Path) {
-            $target = [IO.Path]::GetFullPath($Path)
+            $target = Resolve-OutputPath $Path
             if (Test-Path -LiteralPath $target) { throw "Refusing to overwrite existing path: $target" }
             if ($PSCmdlet.ShouldProcess($target, 'Write theme share string')) { Set-Content -LiteralPath $target -Value $serialized -Encoding utf8NoBOM }
         } else { $serialized }
@@ -81,7 +89,7 @@ Export writes an observed theme share string. Import remains build dependent and
         $source = (Resolve-Path -LiteralPath $Path -ErrorAction Stop).Path
         if ((Get-Item -LiteralPath $source).PSIsContainer) { throw 'Backup accepts a single file, not a directory.' }
         if (-not $BackupPath) { $BackupPath = "$source.morph-backup-$(Get-Date -Format yyyyMMdd-HHmmss)" }
-        $dest = [IO.Path]::GetFullPath($BackupPath)
+        $dest = Resolve-OutputPath $BackupPath
         if (Test-Path -LiteralPath $dest) { throw "Backup destination already exists: $dest" }
         if ($PSCmdlet.ShouldProcess($source, "Copy backup to $dest")) { Copy-Item -LiteralPath $source -Destination $dest }
         $dest
@@ -91,7 +99,7 @@ Export writes an observed theme share string. Import remains build dependent and
         if (-not $BackupPath) { throw 'Specify -BackupPath as the destination file to restore.' }
         $source = (Resolve-Path -LiteralPath $Path -ErrorAction Stop).Path
         if ((Get-Item -LiteralPath $source).PSIsContainer) { throw 'Restore source must be a single backup file.' }
-        $dest = [IO.Path]::GetFullPath($BackupPath)
+        $dest = Resolve-OutputPath $BackupPath
         if (Test-Path -LiteralPath $dest -PathType Container) { throw 'Restore destination must be a file path.' }
         if (Test-Path -LiteralPath $dest) { throw "Refusing to overwrite existing file: $dest" }
         if ($PSCmdlet.ShouldProcess($dest, "Restore from $source")) { Copy-Item -LiteralPath $source -Destination $dest }
