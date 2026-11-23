@@ -6,7 +6,7 @@
 
 Explore 28 themes, refine a palette, and export it for Codex Desktop and CLI.
 
-[Open Morph Studio](https://nonamelx.github.io/morph/)
+[Open Morph Studio](https://nonamelx.github.io/morph/) · [Windows CLI tutorial](docs/windows-cli-theme.md)
 
 </div>
 
@@ -17,6 +17,12 @@ Morph Studio brings a theme collection, switchable target previews, a color edit
 [Quick start](#quick-start) · [Theme gallery](#theme-gallery) · [Studio and profiles](#studio-and-profiles) · [Development](#development) · [Compatibility](docs/compatibility.md)
 
 ## Quick start
+
+### Codex CLI on Windows
+
+[Follow the Windows CLI tutorial](docs/windows-cli-theme.md) to edit a palette in Studio, install the exported TextMate file, and select it in `/theme`.
+
+### Codex Desktop
 
 For a Desktop theme without installing Studio:
 

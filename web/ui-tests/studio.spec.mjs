@@ -12,6 +12,7 @@ test('release links open the correct page and support browser history', async ({
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/#docs$/);
   await expect(page.getByRole('heading', { name: 'Keep a palette' })).toBeVisible();
+  await expect(page.getByRole('link', { name: /Windows CLI theme tutorial/ })).toHaveAttribute('href', 'https://github.com/nonamelx/morph/blob/main/docs/windows-cli-theme.md');
   await page.goBack();
   await expect(page.getByRole('heading', { name: 'Find your palette.' })).toBeVisible();
   await page.goto('/morph/#studio');
