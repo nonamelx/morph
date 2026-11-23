@@ -121,6 +121,23 @@ test('catalog arrows stay within the search and mode results', async ({ page }) 
   await expect(previous).toBeDisabled();
 });
 
+test('command search reveals its selected theme after gallery filtering', async ({ page }) => {
+  await page.goto('/morph/#themes');
+  const gallerySearch = page.getByRole('textbox', { name: 'Search themes' });
+  await gallerySearch.fill('Ayu');
+  await page.getByRole('button', { name: 'light', exact: true }).click();
+
+  await page.getByRole('button', { name: 'Search themes' }).click();
+  const dialog = page.getByRole('dialog', { name: 'Search themes' });
+  await dialog.getByRole('textbox', { name: 'Search themes' }).fill('Nord');
+  await dialog.getByRole('button', { name: 'Nord dark' }).click();
+
+  await expect(gallerySearch).toHaveValue('');
+  await expect(page.getByRole('button', { name: 'all', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('heading', { name: 'Nord', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Nord dark' })).toHaveClass(/current/);
+});
+
 test('mobile navigation closes with Escape and restores focus', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/morph/');
