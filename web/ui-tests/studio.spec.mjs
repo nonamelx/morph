@@ -119,3 +119,20 @@ test('catalog arrows stay within the search and mode results', async ({ page }) 
   await expect(next).toBeDisabled();
   await expect(previous).toBeDisabled();
 });
+
+test('mobile navigation closes with Escape and restores focus', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/morph/');
+  const toggle = page.getByRole('button', { name: 'Toggle navigation' });
+  const nav = page.getByRole('navigation', { name: 'Main navigation' });
+
+  await toggle.focus();
+  await page.keyboard.press('Enter');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await expect(nav).toBeVisible();
+  await page.getByRole('button', { name: 'Themes', exact: true }).focus();
+  await page.keyboard.press('Escape');
+  await expect(nav).toBeHidden();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(toggle).toBeFocused();
+});
