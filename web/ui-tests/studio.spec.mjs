@@ -137,3 +137,24 @@ test('mobile navigation closes with Escape and restores focus', async ({ page })
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
   await expect(toggle).toBeFocused();
 });
+
+test('gallery previews and copies the base theme while preserving Studio edits', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.goto('/morph/#studio');
+  const accent = page.getByLabel('accent HEX');
+  const originalAccent = await accent.inputValue();
+  await accent.fill('#123456');
+  await accent.blur();
+
+  await page.getByRole('button', { name: 'Themes', exact: true }).click();
+  const preview = page.getByLabel('Illustrative Codex Desktop preview');
+  await expect(preview).toHaveAttribute('style', new RegExp(`--accent: ${originalAccent}`));
+  await page.getByText('View import string').click();
+  const galleryImport = await page.getByLabel('Import string').inputValue();
+  expect(JSON.parse(galleryImport.slice('codex-theme-v1:'.length)).theme.accent).toBe(originalAccent);
+  await page.getByRole('button', { name: 'Copy import' }).click();
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(galleryImport);
+
+  await page.getByRole('button', { name: 'Customize in Studio →' }).click();
+  await expect(accent).toHaveValue('#123456');
+});
