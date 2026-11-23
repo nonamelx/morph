@@ -34,6 +34,17 @@ function App(){
     return () => window.removeEventListener('hashchange', syncPage);
   }, []);
 const [mobileView,setMobileView]=useState<'Preview'|'Edit'>('Preview');const [comparison,setComparison]=useState<'Original'|'Edited'>('Edited');const [confirmDelete,setConfirmDelete]=useState(false);const fileInput=useRef<HTMLInputElement>(null);const profileMenuTrigger=useRef<HTMLElement>(null);const [target,setTarget]=useState<'Desktop'|'CLI'>('Desktop');const [selected,setSelected]=useState(themes.find(t=>t.slug==='claude-warm')||themes[0]);const [palette,setPalette]=useState<Colors>(colors(selected));const [history,setHistory]=useState<{palette:Colors;name:string;selected:Theme;profileId:string}[]>([]);const [future,setFuture]=useState<{palette:Colors;name:string;selected:Theme;profileId:string}[]>([]);const [profiles,setProfiles]=useState<any[]>(()=>readProfiles());const [profileId,setProfileId]=useState('');const [query,setQuery]=useState('');const [filter,setFilter]=useState('all');const [notice,setNotice]=useState('');const [mobile,setMobile]=useState(false);const mobileToggle=useRef<HTMLButtonElement>(null);const [name,setName]=useState(selected.name);const [command,setCommand]=useState(false);const [commandQuery,setCommandQuery]=useState('');const dialog=useRef<HTMLDialogElement>(null);useEffect(()=>{const key=(e:KeyboardEvent)=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();setCommand(true)}};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key)},[]);useEffect(()=>{if(command)dialog.current?.showModal();else if(dialog.current?.open)dialog.current.close()},[command]);
+const previousPage=useRef(page);
+useEffect(()=>{
+  if(previousPage.current !== page){
+    const heading = document.querySelector<HTMLElement>('main h1');
+    if (heading) {
+      heading.tabIndex = -1;
+      heading.focus();
+    }
+    previousPage.current=page;
+  }
+},[page]);
 const choose=(t:Theme)=>{setProfileId('');setSelected(t);setPalette(colors(t));setHistory([]);setFuture([]);setName(t.name)};const navigate = (next: Page) => {
   const hash = '#' + next.toLowerCase();
   if (location.hash !== hash) location.hash = hash;

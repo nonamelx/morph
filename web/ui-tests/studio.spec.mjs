@@ -92,6 +92,26 @@ test('profiles: menu, confirmation, rejected import and exports', async ({page})
   await expect(page.getByRole('button',{name:'Export Desktop'})).toBeVisible();
 });
 
+test('navigation moves keyboard focus to the new page heading', async ({ page }) => {
+  await page.goto('/morph/#themes');
+  const button = page.getByRole('button', { name: 'Open in Studio' });
+  await button.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('heading', { level: 1 })).toBeFocused();
+
+  await page.goBack();
+  await expect(page.getByRole('heading', { name: 'Find your palette.' })).toBeFocused();
+});
+
+test('command search returns focus to the destination after selecting a theme', async ({ page }) => {
+  await page.goto('/morph/#studio');
+  await page.getByRole('button', { name: 'Search themes' }).click();
+  const dialog = page.getByRole('dialog', { name: 'Search themes' });
+  await dialog.getByRole('textbox', { name: 'Search themes' }).fill('Ayu Dark');
+  await dialog.getByRole('button', { name: /Ayu Dark/ }).click();
+  await expect(page.getByRole('heading', { name: 'Find your palette.' })).toBeFocused();
+});
+
 test('mobile view and comparison preserve editor state and history',async({page})=>{
   await page.setViewportSize({width:390,height:844}); await studio(page);
   await expect(page.getByRole('button',{name:'Preview',exact:true})).toHaveAttribute('aria-pressed','true');
